@@ -1,3 +1,4 @@
+// Force redeploy
 "use client";
 
 // sea-smart-app.jsx
