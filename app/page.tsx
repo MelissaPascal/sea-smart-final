@@ -201,17 +201,20 @@ const CenterStat = ({ value, label }: { value: string; label: string }) => (
   </div>
 );
 
+/** Accept an icon COMPONENT, then render it—no cloneElement */
+type IconComponent = React.ComponentType<{ className?: string; size?: number }>;
+
 const MetricCard = ({
   title,
   value,
   color,
-  icon,
+  icon: Icon,
   subtitle,
 }: {
   title: string;
   value: string | number;
   color: MetricColor;
-  icon: React.ReactElement;
+  icon: IconComponent;
   subtitle: string;
 }) => {
   const cls = metricColorClasses[color];
@@ -221,7 +224,7 @@ const MetricCard = ({
     >
       <p className={`${cls.title} font-semibold`}>{title}</p>
       <p className={`text-2xl font-bold ${cls.value}`}>{value}</p>
-      {React.cloneElement(icon, { className: cls.icon, size: 24 })}
+      <Icon className={cls.icon} size={24} />
       <p className={`text-xs mt-1 ${cls.subtitle}`}>{subtitle}</p>
     </div>
   );
@@ -342,17 +345,6 @@ export default function Page() {
     studentConfidenceLevel: 5,
     culturalContentViews: 0,
   });
-
-  // (Optional) Reserved for future use
-  // const [impactMetrics, setImpactMetrics] = useState({
-  //   learningGoalsSet: 0,
-  //   goalsAchieved: 0,
-  //   weaknessesToStrengths: [] as string[],
-  //   parentConfidenceIncrease: 0,
-  //   studyTimeOptimization: 0,
-  //   stressReduction: 0,
-  //   engagementScore: 0,
-  // });
 
   const chatEndRef = useRef<HTMLDivElement>(null);
   const startTime = useRef<number>(Date.now());
@@ -569,8 +561,6 @@ export default function Page() {
           <button
             className="mb-6 inline-flex items-center gap-2 rounded-lg bg-green-200 px-4 py-2 text-sm text-green-800 hover:bg-green-300"
             onClick={() => {
-              // hook up your export logic here
-              // e.g., generate CSV / PDF on client or call an API route
               alert("Export coming soon");
             }}
           >
@@ -582,28 +572,28 @@ export default function Page() {
               title="Engagement Score"
               value={`${usageData.parentEngagementScore}/10`}
               color="blue"
-              icon={<TrendingUp />}
+              icon={TrendingUp}
               subtitle="Parent interaction level"
             />
             <MetricCard
               title="Confidence Level"
               value={`${usageData.studentConfidenceLevel}/10`}
               color="green"
-              icon={<Star />}
+              icon={Star}
               subtitle="Student emotional state"
             />
             <MetricCard
               title="Cultural Relevance"
               value={userData.culturalEngagement.localReferences}
               color="purple"
-              icon={<Target />}
+              icon={Target}
               subtitle="Local references used"
             />
             <MetricCard
               title="Time Invested"
               value={formatTime(usageData.timeSpent)}
               color="orange"
-              icon={<Clock />}
+              icon={Clock}
               subtitle="Active learning time"
             />
           </div>
