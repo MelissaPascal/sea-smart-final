@@ -1,3 +1,5 @@
+"use client";
+
 // sea-smart-app.jsx
 
 import React, { useState, useRef, useEffect } from 'react';
