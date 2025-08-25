@@ -54,7 +54,7 @@ const SEASmartApp = () => {
     engagementScore: 0
   });
 
-  const chatEndRef = useRef(null);
+  const chatEndRef = useRef<HTMLDivElement>(null);
   const startTime = useRef(Date.now());
 
   useEffect(() => {
