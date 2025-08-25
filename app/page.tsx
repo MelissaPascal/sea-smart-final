@@ -10,14 +10,48 @@ import {
   Star, Clock, Target
 } from 'lucide-react';
 
-const SEASmartApp = () => {
-  const [userRole, setUserRole] = useState('');
-  const [messages, setMessages] = useState([]);
-  const [inputMessage, setInputMessage] = useState('');
-  const [isLoading, setIsLoading] = useState(false);
-  const [currentView, setCurrentView] = useState('chat');
+interface Message {
+  id: number;
+  type: 'user' | 'assistant';
+  content: string;
+  timestamp: string;
+}
 
-  const [userData, setUserData] = useState({
+interface UserData {
+  userId: string;
+  sessionId: string;
+  startTime: Date;
+  childName: string;
+  childGrade: string;
+  location: string;
+  previousSEAScore: string;
+  currentSEAScore: string;
+  emotionalState: { initial: string; current: string; improvements: any[] };
+  culturalEngagement: { localReferences: number; culturalContentUsed: any[]; languagePreference: string };
+}
+
+interface UsageData {
+  sessions: number;
+  messagesExchanged: number;
+  resourcesGenerated: number;
+  wellnessCheckins: number;
+  timeSpent: number;
+  subjectsStudied: Set<any>;
+  difficultyAreasIdentified: Set<any>;
+  improvementAreas: Set<any>;
+  parentEngagementScore: number;
+  studentConfidenceLevel: number;
+  culturalContentViews: number;
+}
+
+const SEASmartApp = () => {
+  const [userRole, setUserRole] = useState<string>('');
+  const [messages, setMessages] = useState<Message[]>([]);
+  const [inputMessage, setInputMessage] = useState<string>('');
+  const [isLoading, setIsLoading] = useState<boolean>(false);
+  const [currentView, setCurrentView] = useState<string>('chat');
+
+  const [userData, setUserData] = useState<UserData>({
     userId: `user_${Date.now()}`,
     sessionId: `session_${Date.now()}`,
     startTime: new Date(),
@@ -30,7 +64,7 @@ const SEASmartApp = () => {
     culturalEngagement: { localReferences: 0, culturalContentUsed: [], languagePreference: 'english' }
   });
 
-  const [usageData, setUsageData] = useState({
+  const [usageData, setUsageData] = useState<UsageData>({
     sessions: 1,
     messagesExchanged: 0,
     resourcesGenerated: 0,
@@ -71,9 +105,9 @@ const SEASmartApp = () => {
     return () => clearInterval(interval);
   }, []);
 
-  const handleRoleSelection = (role) => {
+  const handleRoleSelection = (role: string) => {
     setUserRole(role);
-    const roleMessages = {
+    const roleMessages: { [key: string]: string } = {
       Parent: `Welcome to SEA Smart™! I'm here to help with your child's SEA preparation.`,
       Teacher: `Welcome to SEA Smart™! I'm your educational assistant for SEA exam prep.`,
       Tutor: `Welcome to SEA Smart™! I'm here to support your tutoring sessions.`
@@ -83,7 +117,7 @@ const SEASmartApp = () => {
 
   const sendMessage = async () => {
     if (!inputMessage.trim() || isLoading) return;
-    const userMsg = { id: Date.now(), type: 'user', content: inputMessage, timestamp: new Date().toLocaleTimeString() };
+    const userMsg: Message = { id: Date.now(), type: 'user', content: inputMessage, timestamp: new Date().toLocaleTimeString() };
     setMessages(prev => [...prev, userMsg]);
     setInputMessage('');
     setIsLoading(true);
@@ -94,7 +128,7 @@ const SEASmartApp = () => {
     }));
     try {
       const response = `This is a placeholder response to: ${inputMessage}`;
-      const assistantMsg = { id: Date.now() + 1, type: 'assistant', content: response, timestamp: new Date().toLocaleTimeString() };
+      const assistantMsg: Message = { id: Date.now() + 1, type: 'assistant', content: response, timestamp: new Date().toLocaleTimeString() };
       setMessages(prev => [...prev, assistantMsg]);
     } catch (error) {
       setMessages(prev => [...prev, { id: Date.now() + 1, type: 'assistant', content: 'Error generating response.', timestamp: new Date().toLocaleTimeString() }]);
@@ -102,13 +136,13 @@ const SEASmartApp = () => {
     setIsLoading(false);
   };
 
-  const formatTime = (seconds) => {
+  const formatTime = (seconds: number) => {
     const minutes = Math.floor(seconds / 60);
     const secs = seconds % 60;
     return `${minutes}m ${secs}s`;
   };
 
-  const MetricCard = ({ title, value, color, icon, subtitle }) => (
+  const MetricCard = ({ title, value, color, icon, subtitle }: any) => (
     <div className={`bg-gradient-to-r from-${color}-50 to-${color}-100 p-4 rounded-xl border border-${color}-200`}>
       <p className={`text-${color}-800 font-semibold`}>{title}</p>
       <p className={`text-2xl font-bold text-${color}-600`}>{value}</p>
@@ -117,7 +151,7 @@ const SEASmartApp = () => {
     </div>
   );
 
-  const AcademicSection = ({ usageData }) => (
+  const AcademicSection = ({ usageData }: { usageData: UsageData }) => (
     <div className="bg-gray-50 p-4 rounded-xl mb-6">
       <h3 className="font-semibold text-gray-800 mb-4">Value Delivered</h3>
       <StatRow label="Est. Traditional Cost" value="TT$350/month" valueClass="text-red-600" />
@@ -127,14 +161,14 @@ const SEASmartApp = () => {
     </div>
   );
 
-  const CulturalImpactSection = ({ userData, usageData }) => (
+  const CulturalImpactSection = ({ userData, usageData }: { userData: UserData; usageData: UsageData }) => (
     <div className="bg-white p-4 rounded-xl mb-6">
       <h3 className="font-semibold text-gray-800 mb-2">🇹🇹 Cultural Authenticity Score</h3>
       <CenterStat value={((userData.culturalEngagement.localReferences / Math.max(1, usageData.messagesExchanged)) * 10).toFixed(1)} label="Cultural Relevance Score" />
     </div>
   );
 
-  const InvestorImpactSummary = ({ usageData, userData }) => (
+  const InvestorImpactSummary = ({ usageData, userData }: { usageData: UsageData; userData: UserData }) => (
     <div className="bg-green-50 p-4 rounded-xl">
       <h3 className="font-semibold text-green-800 mb-2">📈 Investor Impact Summary</h3>
       <p className="text-sm">
@@ -150,13 +184,13 @@ const SEASmartApp = () => {
     </div>
   );
 
-  const StatRow = ({ label, value, valueClass }) => (
+  const StatRow = ({ label, value, valueClass }: { label: string; value: string; valueClass: string }) => (
     <p className="text-sm">
       {label}: <span className={`font-bold ${valueClass}`}>{value}</span>
     </p>
   );
 
-  const CenterStat = ({ value, label }) => (
+  const CenterStat = ({ value, label }: { value: string; label: string }) => (
     <div className="text-center">
       <p className="text-3xl font-bold text-purple-700">{value}</p>
       <p className="text-sm text-gray-600">{label}</p>
