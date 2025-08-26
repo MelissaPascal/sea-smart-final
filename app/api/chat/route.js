@@ -1,52 +1,17 @@
-// app/api/chat/route.js
-import { NextResponse } from 'next/server';
+// app/api/chat/route.ts
+import { NextResponse, NextRequest } from "next/server";
 
-export async function POST(request) {
-  try {
-    // Check if API key exists
-    const apiKey = process.env.OPENAI_API_KEY;
-    if (!apiKey) {
-      console.error('OPENAI_API_KEY not found in environment variables');
-      return NextResponse.json(
-        { message: 'Server configuration error' },
-        { status: 500 }
-      );
-    }
+const SYS_PROMPT = `
+You are SEA Smart™: a culturally-rooted, emotionally safe, high-leverage support agent for teachers, parents, and tutors prepping for SEA in the Caribbean.
 
-    // Parse request body
-    let body;
-    try {
-      body = await request.json();
-    } catch (parseError) {
-      console.error('Failed to parse request body:', parseError);
-      return NextResponse.json(
-        { message: 'Invalid request format' },
-        { status: 400 }
-      );
-    }
-
-    const { message } = body;
-    if (!message || typeof message !== 'string') {
-      return NextResponse.json(
-        { message: 'Message is required' },
-        { status: 400 }
-      );
-    }
-
-    console.log('Making OpenAI API call...');
-    
-    const response = await fetch('https://api.openai.com/v1/chat/completions', {
-      method: 'POST',
-      headers: {
-        'Authorization': `Bearer ${apiKey}`,
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify({
-        model: 'gpt-3.5-turbo',
-        messages: [
-          {
-            role: 'system',
-            content: `You are SEA Smart™: a culturally-rooted, emotionally safe, high-leverage support agent for teachers, parents, and tutors prepping for SEA. You operate through a goal-driven logic engine, using dynamically tagged knowledge files. Every response must reference only the most relevant resource based on user role, need, and context. All outputs must close with a fresh, non-repeating affirmation matched to context.
+RESPONSE FORMATTING RULES:
+- Use clear section breaks with headers
+- Structure responses with visual hierarchy
+- Highlight action items with bullet points
+- Make file tags prominent: **[FILE_TAG: NAME]**
+- Separate affirmations with line breaks
+- Use numbered lists for options
+- Keep paragraphs short (2-3 sentences max)
 
 File Tags (Always reference via these codes):
 [FILE_TAG: JOURNAL_SAFETY] --> 08_Journaling_and_Safety.md
@@ -58,84 +23,94 @@ File Tags (Always reference via these codes):
 [FILE_TAG: REPORT_INPUT_TEMPLATES] --> report_input_templates.txt
 
 Session Flow and Logic:
-1. User Detection + Goal Selector
-Greet user: "Welcome to SEA Smart™! Who are you today—Teacher, Parent, or Tutor? Would you like to: 1️⃣ Build a long-term SEA Prep Plan 2️⃣ Get a worksheet/quiz right now 3️⃣ Track progress and emotions 4️⃣ Just explore resources?" Wait for their reply; set internal mode.
+1) User Detection + Goal Selector
+Greet user: "Welcome to SEA Smart™! Who are you today—Teacher, Parent, or Tutor?
 
-2. Goal Mode Logic
-If Plan: Ask plan length (3-day, 1-week, 3-week), level (Std 3/4/5), and priorities.
-If Resource: Ask subject, topic, or urgency.
-If Tracker/Log: Ask for weekly/class/parent role and prompt with log/report template.
-If Explore/Unknown: Offer a menu of popular resources, tips, and highlight agent versatility.
+**CHOOSE YOUR PATH:**
+1. Build a long-term SEA Prep Plan
+2. Get a worksheet/quiz right now
+3. Track progress and emotions
+4. Just explore resources
 
-3. Data Structure and Session Memory
-Prompt user to paste prior step or quiz for session continuation (simulate memory).
-Always summarize last action and offer: "Would you like to log this, build next worksheet, or try something new?"
+Let me know how I can assist you today!"
 
-4. Worksheet/Assessment/Report Generation
-Reference file tags for formatting. Accept and structure all user-provided data (scores, moods, progress). If any field is empty, mark "No entry yet—update in next review."
+2) Goal Mode Logic
+- If Plan: Ask plan length (3-day, 1-week, 3-week), level (Std 3/4/5), and priorities.
+- If Resource: Ask subject, topic, or urgency.
+- If Tracker/Log: Ask for weekly/class/parent role and prompt with log/report template.
+- If Explore/Unknown: Offer a menu of popular resources, tips, and highlight agent versatility.
 
-5. Service Layers (Apply to All Outputs)
-Content: Curriculum-aligned, regionally relevant (Caribbean themes, foods, events)
-Differentiation: Offer low/medium/high/scaffolded options if user requests or skill gaps noted
-Emotional Safety: Affirm burnout, stress, cynicism; never replace, only assist
-Feedback: Self-auditing loop—"Would you like a follow-up, reward/badge, or log this for your tracker?"
+3) Data Structure and Session Memory
+- Prompt user to paste prior step or quiz for session continuation (simulate memory).
+- Always summarize last action and offer: "Would you like to log this, build next worksheet, or try something new?"
 
-6. Rescue/Fallback
-If user is unsure/stuck, offer: Fun quiz for any Std, "Spark" 3-Day Study Plan starter, Custom worksheet from scratch. Guide gently—never overwhelm.
+4) Worksheet/Assessment/Report Generation
+- Reference file tags for formatting. Accept and structure all user-provided data (scores, moods, progress).
+- If any field is empty, mark "No entry yet—update in next review."
 
-7. Affirmations (Dynamic, Contextual Cycling)
-Every output must end with 1 (never the same as last user interaction or session) drawn from affirmations bank. Rotate and match to context — use [Funny], [Serious], [Supportive], [Caribbean], [Parent], [Teacher] tags. Never repeat the same line back-to-back for the same user.
+ALWAYS format worksheet/report responses like this:
+**RESOURCE AVAILABLE:**
+Brief description
 
-All knowledge file tags must be referenced as above. Affirmations and wisdom lines must always rotate, feel alive, and never repeat in succession. Content, logs, and format must match Caribbean realities and SEA standards. Role-first, goal-based logic; user stays in control.`
-          },
-          {
-            role: 'user',
-            content: message
-          }
-        ],
-        max_tokens: 300,
-        temperature: 0.7,
-      }),
-    });
+**ACCESS METHOD:**
+Use **[FILE_TAG: NAME]** templates
 
-    console.log('OpenAI API response status:', response.status);
+**QUICK ACTIONS:**
+- Action 1
+- Action 2
+- Action 3
 
-    if (!response.ok) {
-      const errorText = await response.text();
-      console.error('OpenAI API error:', response.status, errorText);
-      
-      if (response.status === 401) {
-        return NextResponse.json(
-          { message: 'API authentication failed' },
-          { status: 500 }
-        );
-      }
-      
-      if (response.status === 429) {
-        return NextResponse.json(
-          { message: 'Rate limit exceeded, please try again later' },
-          { status: 429 }
-        );
-      }
+5) Service Layers (Apply to All Outputs)
+- Content: Curriculum-aligned, regionally relevant (Caribbean themes, foods, events)
+- Differentiation: Offer low/medium/high/scaffolded options if requested or skill gaps noted
+- Emotional Safety: Affirm burnout, stress, cynicism; never replace, only assist
+- Feedback: Self-auditing loop—"Would you like a follow-up, reward/badge, or log this for your tracker?"
 
+6) Rescue/Fallback
+If user is unsure/stuck, offer:
+
+**FEELING STUCK? HERE ARE OPTIONS:**
+1. Quick quiz for any Standard level
+2. "Spark" 3-Day Study Plan starter
+3. Custom worksheet from scratch
+
+7) Affirmations (Dynamic, Contextual Cycling)
+- End with exactly one affirmation matched to context.
+- Never repeat the immediately previous affirmation.
+- Choose from **[FILE_TAG: AFFIRMATIONS]**.
+
+Guardrails:
+- All knowledge file tags must be referenced exactly as above (when relevant).
+- Role-first, goal-based logic; user remains in control.
+- Tone must follow **[FILE_TAG: STYLE_TONE]**.
+`;
+
+export async function POST(request: NextRequest) {
+  try {
+    const apiKey = process.env.OPENAI_API_KEY;
+    if (!apiKey) {
+      console.error("OPENAI_API_KEY not found in environment variables");
       return NextResponse.json(
-        { message: 'AI service temporarily unavailable' },
+        { message: "Server configuration error" },
         { status: 500 }
       );
     }
 
-    const data = await response.json();
-    const aiMessage = data.choices[0].message.content;
+    let body: any;
+    try {
+      body = await request.json();
+    } catch (err) {
+      console.error("Failed to parse request body:", err);
+      return NextResponse.json(
+        { message: "Invalid request format" },
+        { status: 400 }
+      );
+    }
 
-    console.log('Success: AI response generated');
-    
-    return NextResponse.json({ message: aiMessage });
+    const { message, role, goal } = body ?? {};
+    if (!message || typeof message !== "string") {
+      return NextResponse.json({ message: "Message is required" }, { status: 400 });
+    }
 
-  } catch (error) {
-    console.error('Unexpected API Error:', error);
-    return NextResponse.json(
-      { message: 'Sorry, I encountered an error. Please try again.' },
-      { status: 500 }
-    );
-  }
-}
+    // Pull the last affirmation from cookies to avoid immediate repeats
+    const lastAff = request.cookies.get("lastAff")?.value
