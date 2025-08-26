@@ -3,12 +3,42 @@ import { NextResponse } from 'next/server';
 
 export async function POST(request) {
   try {
-    const { message } = await request.json();
+    // Check if API key exists
+    const apiKey = process.env.OPENAI_API_KEY;
+    if (!apiKey) {
+      console.error('OPENAI_API_KEY not found in environment variables');
+      return NextResponse.json(
+        { message: 'Server configuration error' },
+        { status: 500 }
+      );
+    }
 
+    // Parse request body
+    let body;
+    try {
+      body = await request.json();
+    } catch (parseError) {
+      console.error('Failed to parse request body:', parseError);
+      return NextResponse.json(
+        { message: 'Invalid request format' },
+        { status: 400 }
+      );
+    }
+
+    const { message } = body;
+    if (!message || typeof message !== 'string') {
+      return NextResponse.json(
+        { message: 'Message is required' },
+        { status: 400 }
+      );
+    }
+
+    console.log('Making OpenAI API call...');
+    
     const response = await fetch('https://api.openai.com/v1/chat/completions', {
       method: 'POST',
       headers: {
-        'Authorization': `Bearer ${process.env.OPENAI_API_KEY}`,
+        'Authorization': `Bearer ${apiKey}`,
         'Content-Type': 'application/json',
       },
       body: JSON.stringify({
@@ -63,21 +93,46 @@ All knowledge file tags must be referenced as above. Affirmations and wisdom lin
             content: message
           }
         ],
-        max_tokens: 150,
+        max_tokens: 300,
         temperature: 0.7,
       }),
     });
 
+    console.log('OpenAI API response status:', response.status);
+
     if (!response.ok) {
-      throw new Error(`OpenAI API error: ${response.statusText}`);
+      const errorText = await response.text();
+      console.error('OpenAI API error:', response.status, errorText);
+      
+      if (response.status === 401) {
+        return NextResponse.json(
+          { message: 'API authentication failed' },
+          { status: 500 }
+        );
+      }
+      
+      if (response.status === 429) {
+        return NextResponse.json(
+          { message: 'Rate limit exceeded, please try again later' },
+          { status: 429 }
+        );
+      }
+
+      return NextResponse.json(
+        { message: 'AI service temporarily unavailable' },
+        { status: 500 }
+      );
     }
 
     const data = await response.json();
     const aiMessage = data.choices[0].message.content;
 
+    console.log('Success: AI response generated');
+    
     return NextResponse.json({ message: aiMessage });
+
   } catch (error) {
-    console.error('API Error:', error);
+    console.error('Unexpected API Error:', error);
     return NextResponse.json(
       { message: 'Sorry, I encountered an error. Please try again.' },
       { status: 500 }
