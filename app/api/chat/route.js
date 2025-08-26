@@ -85,7 +85,7 @@ Guardrails:
 - Tone must follow **[FILE_TAG: STYLE_TONE]**.
 `;
 
-export async function POST(request: NextRequest) {
+export async function POST(request) {
   try {
     const apiKey = process.env.OPENAI_API_KEY;
     if (!apiKey) {
