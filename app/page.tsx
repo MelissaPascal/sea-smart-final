@@ -7,12 +7,18 @@ interface Message {
   sender: 'user' | 'ai';
 }
 
+// Format message function with proper HTML rendering
 const formatMessage = (text: string) => {
   return text
+    // Bold headers that start with ** and end with **
     .replace(/\*\*(.*?)\*\*/g, '<strong class="text-blue-900 font-semibold block mb-2">$1</strong>')
+    // File tags in colored badges
     .replace(/\[FILE_TAG: ([^\]]+)\]/g, '<span class="inline-block bg-purple-100 text-purple-800 px-2 py-1 rounded text-sm font-medium mx-1">[FILE_TAG: $1]</span>')
-    .replace(/^- (.*$)/gm, '<div class="ml-4 mb-1 flex items-start"><span class="mr-2">•</span><span>$1</span></div>')
+    // Bullet points with better spacing
+    .replace(/^- (.*$)/gm, '<div class="ml-4 mb-1 flex items-start"><span class="mr-2 text-blue-600">•</span><span>$1</span></div>')
+    // Numbered lists
     .replace(/^(\d+)\. (.*$)/gm, '<div class="ml-4 mb-2"><span class="font-semibold text-blue-600">$1.</span> $2</div>')
+    // Line breaks for sections
     .replace(/\n\n/g, '<br><br>')
     .replace(/\n/g, '<br>');
 };
@@ -59,6 +65,7 @@ export default function Home() {
   const [isLoading, setIsLoading] = useState(false);
   const messagesEndRef = useRef<HTMLDivElement>(null);
 
+  // Auto-scroll to bottom when new messages arrive
   const scrollToBottom = () => {
     messagesEndRef.current?.scrollIntoView({ behavior: "smooth" });
   };
@@ -67,6 +74,7 @@ export default function Home() {
     scrollToBottom();
   }, [messages]);
 
+  // Handle sending messages to SEA Smart™
   const handleSendMessage = async (e: React.FormEvent) => {
     e.preventDefault();
     if (!input.trim() || isLoading) return;
@@ -74,6 +82,7 @@ export default function Home() {
     const userMessage = input.trim();
     setInput('');
     
+    // Add user message to chat
     setMessages(prev => [...prev, { text: userMessage, sender: 'user' }]);
     setIsLoading(true);
 
@@ -91,6 +100,8 @@ export default function Home() {
       }
 
       const data = await response.json();
+      
+      // Add AI response to chat
       setMessages(prev => [...prev, { text: data.message, sender: 'ai' }]);
     } catch (error) {
       console.error('Chat error:', error);
@@ -146,13 +157,22 @@ export default function Home() {
                   Start a conversation to get personalized SEA prep help designed specifically for Caribbean students, teachers, and parents.
                 </p>
                 <div className="mt-6 flex flex-wrap justify-center gap-2">
-                  <button className="px-4 py-2 bg-blue-100 hover:bg-blue-200 text-blue-700 rounded-lg text-sm font-medium transition-colors">
+                  <button 
+                    onClick={() => setInput("I'm a teacher and need a study plan")}
+                    className="px-4 py-2 bg-blue-100 hover:bg-blue-200 text-blue-700 rounded-lg text-sm font-medium transition-colors"
+                  >
                     Get Study Plan
                   </button>
-                  <button className="px-4 py-2 bg-green-100 hover:bg-green-200 text-green-700 rounded-lg text-sm font-medium transition-colors">
+                  <button 
+                    onClick={() => setInput("I need worksheets for Standard 4")}
+                    className="px-4 py-2 bg-green-100 hover:bg-green-200 text-green-700 rounded-lg text-sm font-medium transition-colors"
+                  >
                     Need Worksheet
                   </button>
-                  <button className="px-4 py-2 bg-purple-100 hover:bg-purple-200 text-purple-700 rounded-lg text-sm font-medium transition-colors">
+                  <button 
+                    onClick={() => setInput("I'm feeling overwhelmed with SEA prep")}
+                    className="px-4 py-2 bg-purple-100 hover:bg-purple-200 text-purple-700 rounded-lg text-sm font-medium transition-colors"
+                  >
                     Emotional Support
                   </button>
                 </div>
@@ -167,7 +187,7 @@ export default function Home() {
                     : 'bg-white border border-gray-200 text-gray-800'
                 }`}>
                   {message.sender === 'ai' && (
-                    <div className="flex items-center space-x-2 mb-2 pb-2 border-b border-gray-100">
+                    <div className="flex items-center space-x-2 mb-3 pb-2 border-b border-gray-100">
                       <div className="w-6 h-6 bg-gradient-to-r from-blue-500 to-blue-600 rounded-full flex items-center justify-center">
                         <span className="text-white text-xs font-bold">S</span>
                       </div>
@@ -191,7 +211,7 @@ export default function Home() {
             {isLoading && (
               <div className="flex justify-start">
                 <div className="bg-white border border-gray-200 max-w-xs lg:max-w-md px-4 py-3 rounded-2xl shadow-sm">
-                  <div className="flex items-center space-x-2 mb-2 pb-2 border-b border-gray-100">
+                  <div className="flex items-center space-x-2 mb-3 pb-2 border-b border-gray-100">
                     <div className="w-6 h-6 bg-gradient-to-r from-blue-500 to-blue-600 rounded-full flex items-center justify-center">
                       <span className="text-white text-xs font-bold">S</span>
                     </div>
