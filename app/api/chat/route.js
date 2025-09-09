@@ -1,5 +1,5 @@
 import { NextResponse } from 'next/server';
-
+import { supabase } from '../../../lib/supabase'
 export async function POST(request) {
   try {
     const apiKey = process.env.OPENAI_API_KEY;
@@ -79,7 +79,17 @@ All knowledge file tags must be referenced as above. Affirmations and wisdom lin
 
     const data = await response.json();
     const aiMessage = data.choices[0].message.content;
-
+// Log conversation to Supabase
+try {
+  await supabase.from('conversations').insert({
+    session_start: new Date(),
+    total_messages: 1,
+    conversation_log: { user_message: message, ai_response: aiMessage },
+    primary_subject_discussed: 'SEA_prep'
+  });
+} catch (dbError) {
+  console.error('Database logging error:', dbError);
+}
     return NextResponse.json({ message: aiMessage });
 
   } catch (error) {
