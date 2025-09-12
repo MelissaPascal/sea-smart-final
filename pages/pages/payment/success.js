@@ -1,75 +1,128 @@
-import { useState, useEffect } from 'react';
-import { CheckCircle, Mail, Download, ArrowRight } from 'lucide-react';
+// pages/success.js - Simple success page (easier route)
+import { useState } from 'react';
 
-export default function PaymentSuccessPage() {
+export default function SuccessPage() {
   const [email, setEmail] = useState('');
   const [submitted, setSubmitted] = useState(false);
-  const [accessCode] = useState(() => {
-    return 'SEA' + Math.random().toString(36).substr(2, 8).toUpperCase();
-  });
+  const [accessCode] = useState('SEA' + Math.random().toString(36).substr(2, 8).toUpperCase());
 
-  useEffect(() => {
-    const urlParams = new URLSearchParams(window.location.search);
-    const plan = urlParams.get('plan') || 'annual';
-    const amount = urlParams.get('amount') || '600';
-    console.log('Payment completed:', { plan, amount });
-  }, []);
-
-  const handleEmailSubmit = async () => {
-    if (!email) return;
-    
-    try {
-      console.log('Customer email:', email, 'Access Code:', accessCode);
-      setSubmitted(true);
-    } catch (error) {
-      console.error('Error:', error);
+  const handleSubmit = () => {
+    if (!email) {
+      alert('Please enter your email address');
+      return;
     }
+    
+    console.log('Customer Email:', email);
+    console.log('Access Code:', accessCode);
+    setSubmitted(true);
   };
 
-  const handleAccessChat = () => {
-    window.location.href = '/chat';
+  const containerStyle = {
+    minHeight: '100vh',
+    background: 'linear-gradient(135deg, #e8f5e8 0%, #c8e6c9 100%)',
+    display: 'flex',
+    alignItems: 'center',
+    justifyContent: 'center',
+    padding: '2rem',
+    fontFamily: 'Arial, sans-serif'
+  };
+
+  const cardStyle = {
+    backgroundColor: 'white',
+    borderRadius: '1rem',
+    padding: '2rem',
+    maxWidth: '500px',
+    width: '100%',
+    boxShadow: '0 4px 6px rgba(0, 0, 0, 0.1)',
+    textAlign: 'center'
+  };
+
+  const inputStyle = {
+    width: '100%',
+    padding: '1rem',
+    borderRadius: '0.5rem',
+    border: '2px solid #ddd',
+    fontSize: '1rem',
+    marginBottom: '1rem'
+  };
+
+  const buttonStyle = {
+    backgroundColor: '#4caf50',
+    color: 'white',
+    padding: '1rem 2rem',
+    borderRadius: '0.5rem',
+    border: 'none',
+    fontSize: '1.1rem',
+    fontWeight: 'bold',
+    cursor: 'pointer',
+    width: '100%'
   };
 
   if (submitted) {
     return (
-      <div className="min-h-screen bg-gradient-to-br from-green-50 to-blue-50 flex items-center justify-center p-4">
-        <div className="max-w-md w-full bg-white rounded-2xl shadow-xl p-8 text-center">
-          <CheckCircle className="w-16 h-16 text-green-500 mx-auto mb-6" />
+      <div style={containerStyle}>
+        <div style={cardStyle}>
+          <div style={{ fontSize: '4rem', marginBottom: '1rem' }}>✅</div>
           
-          <h1 className="text-2xl font-bold text-gray-900 mb-4">
+          <h1 style={{ fontSize: '2rem', fontWeight: 'bold', color: '#333', marginBottom: '1rem' }}>
             Welcome to SEA Smart™!
           </h1>
           
-          <div className="bg-blue-50 rounded-lg p-4 mb-6">
-            <p className="text-sm text-gray-600 mb-2">Your Access Code:</p>
-            <div className="text-xl font-mono font-bold text-blue-600 bg-white rounded px-3 py-2 border-2 border-blue-200">
+          <div style={{
+            backgroundColor: '#e3f2fd',
+            borderRadius: '0.5rem',
+            padding: '1rem',
+            margin: '1rem 0'
+          }}>
+            <p style={{ fontSize: '0.9rem', color: '#666', marginBottom: '0.5rem' }}>Your Access Code:</p>
+            <div style={{
+              fontSize: '1.5rem',
+              fontFamily: 'monospace',
+              fontWeight: 'bold',
+              color: '#1976d2',
+              backgroundColor: 'white',
+              borderRadius: '0.5rem',
+              padding: '1rem',
+              border: '2px solid #1976d2'
+            }}>
               {accessCode}
             </div>
-            <p className="text-xs text-gray-500 mt-2">Save this code - you'll need it to log in</p>
+            <p style={{ fontSize: '0.8rem', color: '#888', marginTop: '0.5rem' }}>
+              Save this code - you'll need it to log in
+            </p>
           </div>
 
-          <div className="space-y-4">
-            <div className="bg-yellow-50 border border-yellow-200 rounded-lg p-4 text-left">
-              <h3 className="font-semibold text-yellow-800 mb-2">📧 Check Your Email</h3>
-              <p className="text-sm text-yellow-700">
-                We've sent your access details to <strong>{email}</strong>. 
-                If you don't see it, check your spam folder.
-              </p>
-            </div>
-
-            <button
-              onClick={handleAccessChat}
-              className="w-full bg-blue-600 hover:bg-blue-700 text-white font-bold py-3 px-6 rounded-lg transition-colors flex items-center justify-center gap-2"
-            >
-              Access Your AI Tutor Now
-              <ArrowRight className="w-5 h-5" />
-            </button>
+          <div style={{
+            backgroundColor: '#fff3e0',
+            border: '2px solid #ffb74d',
+            borderRadius: '0.5rem',
+            padding: '1rem',
+            margin: '1rem 0',
+            textAlign: 'left'
+          }}>
+            <h3 style={{ fontWeight: 'bold', color: '#f57c00', marginBottom: '0.5rem' }}>
+              📧 Check Your Email
+            </h3>
+            <p style={{ fontSize: '0.9rem', color: '#e65100' }}>
+              We've sent your access details to <strong>{email}</strong>. 
+              If you don't see it, check your spam folder.
+            </p>
           </div>
 
-          <div className="mt-6 text-center">
-            <p className="text-sm text-gray-600">
+          <button
+            onClick={() => window.location.href = '/chat'}
+            style={{
+              ...buttonStyle,
+              backgroundColor: '#1976d2'
+            }}
+          >
+            Access Your AI Tutor Now →
+          </button>
+
+          <div style={{ marginTop: '1.5rem' }}>
+            <p style={{ fontSize: '0.9rem', color: '#666' }}>
               Need help? Email us at{' '}
-              <a href="mailto:support@seasmart.tt" className="text-blue-600 hover:underline">
+              <a href="mailto:support@seasmart.tt" style={{ color: '#1976d2' }}>
                 support@seasmart.tt
               </a>
             </p>
@@ -80,50 +133,60 @@ export default function PaymentSuccessPage() {
   }
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-green-50 to-blue-50 flex items-center justify-center p-4">
-      <div className="max-w-md w-full bg-white rounded-2xl shadow-xl p-8 text-center">
-        <CheckCircle className="w-16 h-16 text-green-500 mx-auto mb-6" />
+    <div style={containerStyle}>
+      <div style={cardStyle}>
+        <div style={{ fontSize: '4rem', marginBottom: '1rem' }}>✅</div>
         
-        <h1 className="text-2xl font-bold text-gray-900 mb-4">
+        <h1 style={{ fontSize: '2rem', fontWeight: 'bold', color: '#333', marginBottom: '1rem' }}>
           Payment Successful! 🎉
         </h1>
         
-        <p className="text-gray-600 mb-8">
+        <p style={{ color: '#666', marginBottom: '2rem', fontSize: '1.1rem' }}>
           Thank you for choosing SEA Smart™. To complete your setup and access your AI tutor, 
           please provide your email address.
         </p>
 
-        <div className="space-y-4">
-          <div>
-            <label htmlFor="email" className="block text-sm font-medium text-gray-700 mb-2 text-left">
-              Email Address
-            </label>
-            <input
-              type="email"
-              id="email"
-              value={email}
-              onChange={(e) => setEmail(e.target.value)}
-              placeholder="Enter your email address"
-              className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
-              required
-            />
-          </div>
+        <div>
+          <label style={{ 
+            display: 'block', 
+            fontSize: '0.9rem', 
+            fontWeight: 'bold', 
+            color: '#333', 
+            marginBottom: '0.5rem',
+            textAlign: 'left'
+          }}>
+            Email Address
+          </label>
+          
+          <input
+            type="email"
+            value={email}
+            onChange={(e) => setEmail(e.target.value)}
+            placeholder="Enter your email address"
+            style={inputStyle}
+          />
 
           <button
-            onClick={handleEmailSubmit}
-            className="w-full bg-blue-600 hover:bg-blue-700 text-white font-bold py-3 px-6 rounded-lg transition-colors flex items-center justify-center gap-2"
+            onClick={handleSubmit}
+            style={buttonStyle}
           >
-            <Mail className="w-5 h-5" />
-            Send My Access Details
+            📧 Send My Access Details
           </button>
         </div>
 
-        <div className="mt-6 p-4 bg-blue-50 rounded-lg">
-          <div className="flex items-start gap-3">
-            <Download className="w-5 h-5 text-blue-600 mt-0.5" />
-            <div className="text-left">
-              <h4 className="font-medium text-blue-900 text-sm">What's Next?</h4>
-              <p className="text-xs text-blue-700 mt-1">
+        <div style={{
+          backgroundColor: '#e3f2fd',
+          borderRadius: '0.5rem',
+          padding: '1rem',
+          margin: '1.5rem 0'
+        }}>
+          <div style={{ display: 'flex', alignItems: 'flex-start', gap: '0.5rem' }}>
+            <div style={{ fontSize: '1.2rem' }}>📥</div>
+            <div style={{ textAlign: 'left' }}>
+              <h4 style={{ fontWeight: 'bold', color: '#1976d2', fontSize: '0.9rem', margin: '0 0 0.5rem 0' }}>
+                What's Next?
+              </h4>
+              <p style={{ fontSize: '0.8rem', color: '#1565c0', margin: 0 }}>
                 You'll receive your login details via email, plus a quick start guide 
                 to help you create your first SEA practice worksheet.
               </p>
