@@ -54,11 +54,12 @@ const PricingCTASection = () => {
             border: 'none',
             cursor: 'pointer'
           }}
-          onMouseOver={(e) => {
-            e.target.style.backgroundColor = '#1565c0';
-            e.target.style.transform = 'translateY(-2px)';
-            e.target.style.boxShadow = '0 6px 12px rgba(25, 118, 210, 0.4)';
-          }}
+       onMouseOver={(e) => {
+  const target = e.currentTarget as HTMLElement;
+  target.style.backgroundColor = '#1565c0';
+  target.style.transform = 'translateY(-2px)';
+  target.style.boxShadow = '0 6px 12px rgba(25, 118, 210, 0.4)';
+}}
           onMouseOut={(e) => {
             e.target.style.backgroundColor = '#1976d2';
             e.target.style.transform = 'translateY(0)';
