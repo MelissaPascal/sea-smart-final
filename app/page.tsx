@@ -1,6 +1,6 @@
-import LandingPage from './components/LandingPage'
+'use client';
 
-
+import LandingPage from './components/LandingPage';
 
 const PricingCTASection = () => {
   return (
@@ -54,18 +54,17 @@ const PricingCTASection = () => {
             border: 'none',
             cursor: 'pointer'
           }}
-       onMouseOver={(e) => {
-  const target = e.currentTarget as HTMLElement;
-  target.style.backgroundColor = '#1565c0';
-  target.style.transform = 'translateY(-2px)';
-  target.style.boxShadow = '0 6px 12px rgba(25, 118, 210, 0.4)';
-}}
           onMouseOver={(e) => {
-  const target = e.currentTarget as HTMLAnchorElement;
-  target.style.backgroundColor = '#1976d2';
-}}
-            e.target.style.transform = 'translateY(0)';
-            e.target.style.boxShadow = '0 4px 6px rgba(25, 118, 210, 0.3)';
+            const target = e.currentTarget as HTMLAnchorElement;
+            target.style.backgroundColor = '#1565c0';
+            target.style.transform = 'translateY(-2px)';
+            target.style.boxShadow = '0 6px 12px rgba(25, 118, 210, 0.4)';
+          }}
+          onMouseOut={(e) => {
+            const target = e.currentTarget as HTMLAnchorElement;
+            target.style.backgroundColor = '#1976d2';
+            target.style.transform = 'translateY(0)';
+            target.style.boxShadow = '0 4px 6px rgba(25, 118, 210, 0.3)';
           }}
         >
           View Pricing Plans
@@ -87,14 +86,16 @@ const PricingCTASection = () => {
             cursor: 'pointer'
           }}
           onMouseOver={(e) => {
-            e.target.style.backgroundColor = '#1976d2';
-            e.target.style.color = 'white';
-            e.target.style.transform = 'translateY(-2px)';
+            const target = e.currentTarget as HTMLAnchorElement;
+            target.style.backgroundColor = '#1976d2';
+            target.style.color = 'white';
+            target.style.transform = 'translateY(-2px)';
           }}
           onMouseOut={(e) => {
-            e.target.style.backgroundColor = 'white';
-            e.target.style.color = '#1976d2';
-            e.target.style.transform = 'translateY(0)';
+            const target = e.currentTarget as HTMLAnchorElement;
+            target.style.backgroundColor = 'white';
+            target.style.color = '#1976d2';
+            target.style.transform = 'translateY(0)';
           }}
         >
           Try Free Demo
@@ -129,9 +130,9 @@ const PricingCTASection = () => {
 
 export default function Home() {
   return (
-  <div>
-    <LandingPage />
-    <PricingCTASection />
-  </div>
-)
+    <div>
+      <LandingPage />
+      <PricingCTASection />
+    </div>
+  );
 }
