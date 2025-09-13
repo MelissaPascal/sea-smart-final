@@ -60,8 +60,10 @@ const PricingCTASection = () => {
   target.style.transform = 'translateY(-2px)';
   target.style.boxShadow = '0 6px 12px rgba(25, 118, 210, 0.4)';
 }}
-          onMouseOut={(e) => {
-            e.target.style.backgroundColor = '#1976d2';
+          onMouseOver={(e) => {
+  const target = e.currentTarget as HTMLAnchorElement;
+  target.style.backgroundColor = '#1976d2';
+}}
             e.target.style.transform = 'translateY(0)';
             e.target.style.boxShadow = '0 4px 6px rgba(25, 118, 210, 0.3)';
           }}
