@@ -101,6 +101,26 @@ const PricingCTASection = () => {
           Try Free Demo
         </a>
       </div>
+
+        <a 
+    href="/login"
+    style={{
+      display: 'inline-block',
+      border: '2px solid #4caf50',
+      color: '#4caf50',
+      backgroundColor: 'white',
+      padding: '1.2rem 2.5rem',
+      borderRadius: '0.75rem',
+      textDecoration: 'none',
+      fontSize: '1.3rem',
+      fontWeight: 'bold',
+      transition: 'all 0.3s ease',
+      cursor: 'pointer'
+    }}
+  >
+    Customer Login
+  </a>
+</div>
       
       <div style={{
         display: 'flex',
