@@ -7,7 +7,7 @@ import './homepage.css';
 export default function HomePage() {
   const handleDownloadFree = () => {
     // Link to your Week 1 pack download
-    window.open('/downloads/SEA_Smart_Week_1_FREE.zip', '_blank');
+    window.open('/SEA_Smart_Week_1_FREE.zip', '_blank');
   };
 
 const handleWhatsAppContact = (tier: string) => {
