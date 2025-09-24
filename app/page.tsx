@@ -10,7 +10,8 @@ export default function HomePage() {
     window.open('/downloads/SEA_Smart_Week_1_FREE.zip', '_blank');
   };
 
-  const handleWhatsAppContact = (tier: string) => {
+const handleWhatsAppContact = (tier: string) => {
+    const message = encodeURIComponent(`Hi! I'm interested in the ${tier}. Can you send me the payment link?`);
     window.open(`https://wa.me/18683101226?text=${message}`, '_blank');
   };
 
