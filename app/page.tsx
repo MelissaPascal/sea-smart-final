@@ -5,16 +5,19 @@ import React from 'react';
 import './homepage.css';
 
 export default function HomePage() {
-  const handleQuestClick = (quest: string) => {
-    alert(`🎉 Welcome to your ${quest}, Champion! Mojo is getting ready to meet you!`);
+  const handleDownloadFree = () => {
+    // Link to your Week 1 pack download
+    window.open('/downloads/SEA_Smart_Week_1_FREE.zip', '_blank');
   };
 
-  const handleTryNowClick = () => {
-    window.location.href = '/chat';
+  const handleWhatsAppContact = (tier: string) => {
+    const message = encodeURIComponent(`Hi! I'm interested in the ${tier}. Can you send me the payment link?`);
+    window.open(`https://wa.me/18687654321?text=${message}`, '_blank');
   };
 
   return (
     <>
+      {/* Confetti Animation */}
       {[...Array(9)].map((_, i) => (
         <div key={i} className="confetti" style={{
           left: `${(i + 1) * 10}%`,
@@ -23,9 +26,11 @@ export default function HomePage() {
         }} />
       ))}
       
+      {/* Hero Section */}
       <section className="hero-section">
         <div className="steelpan-emoji">🥁🎭🌟</div>
-        <h1 className="main-title">Hey Champion!</h1>
+        
+        <h1 className="main-title">Try Week 1 FREE!</h1>
         
         <div className="mojo-container">
           <img 
@@ -38,25 +43,59 @@ export default function HomePage() {
         </div>
         
         <div className="mojo-intro">
-          <strong>🌈 Mojo here!</strong> Your very own Quest guide and SEA sidekick!<br/>
-          I&apos;ve got a bag full of badges, jokes, and quests to help you <strong>WIN</strong> at school — AND have fun doing it!
+          <strong>Meet Mojo!</strong> Your child's fun SEA prep companion<br/>
+          Get 5 Math Quest sheets + answer key - <strong>No payment needed!</strong>
         </div>
         
-        <div className="quest-buttons">
-          <button className="quest-btn math-btn" onClick={() => handleQuestClick('Maths Quest')}>
-            🍎 Start Maths Quest
-          </button>
-          <button className="quest-btn reading-btn" onClick={() => handleQuestClick('Reading Adventure')}>
-            📖 Reading Adventure
-          </button>
-          <button className="quest-btn science-btn" onClick={() => handleQuestClick('Science Explorer')}>
-            🧪 Science Explorer
-          </button>
+        <button className="big-download-button" onClick={handleDownloadFree}>
+          📥 Download FREE Week 1 Pack
+        </button>
+        
+        <p className="hero-subtext">
+          Instant PDF download • Works on any device • No signup required
+        </p>
+      </section>
+
+      {/* Sample Worksheets Preview */}
+      <section className="sample-preview-section">
+        <h2 className="section-title">What's Inside Week 1?</h2>
+        <div className="sample-grid">
+          <div className="sample-card">
+            <div className="sample-badge">Sheet 1</div>
+            <h3>🍕 Fractions Explorer</h3>
+            <p>Pizza slice challenges with Mojo</p>
+          </div>
+          <div className="sample-card">
+            <div className="sample-badge">Sheet 2</div>
+            <h3>🥷 Number Ninja</h3>
+            <p>Market math adventures</p>
+          </div>
+          <div className="sample-card">
+            <div className="sample-badge">Sheet 3</div>
+            <h3>📏 Measurement Maestro</h3>
+            <p>Build a treehouse with area & perimeter</p>
+          </div>
+          <div className="sample-card">
+            <div className="sample-badge">Sheet 4</div>
+            <h3>🔺 Geometry Genius</h3>
+            <p>Shape safari challenge</p>
+          </div>
+          <div className="sample-card">
+            <div className="sample-badge">Sheet 5</div>
+            <h3>🥞 Fraction Quest Part 2</h3>
+            <p>Pancake party math</p>
+          </div>
+          <div className="sample-card">
+            <div className="sample-badge">Bonus</div>
+            <h3>🔐 Answer Key</h3>
+            <p>For parents only - with teaching tips!</p>
+          </div>
         </div>
       </section>
       
+      {/* Badges Section */}
       <section className="badges-section">
-        <h2 className="section-title">🏅 Collect Amazing Badges!</h2>
+        <h2 className="section-title">Kids Love Earning Badges!</h2>
         <div className="badges-grid">
           <div className="badge-card">
             <img 
@@ -103,13 +142,96 @@ export default function HomePage() {
               className="badge-image"
             />
             <div className="badge-name">🌊 Pitch Lake Champion</div>
-            <div className="badge-description">When you keep trying, even if it&apos;s hard!</div>
+            <div className="badge-description">When you keep trying, even if it's hard!</div>
           </div>
         </div>
       </section>
 
+      {/* Pricing Section */}
+      <section className="pricing-section">
+        <h2 className="section-title">Choose Your Plan</h2>
+        <div className="pricing-grid">
+          
+          <div className="pricing-card free-card">
+            <div className="price-badge">FREE</div>
+            <h3>Week 1 Starter</h3>
+            <div className="price">$0 TTD</div>
+            <ul className="features-list">
+              <li>✅ 5 Math Quest worksheets</li>
+              <li>✅ Complete answer key</li>
+              <li>✅ Meet Mojo & earn badges</li>
+              <li>✅ Instant PDF download</li>
+            </ul>
+            <button className="pricing-button free-button" onClick={handleDownloadFree}>
+              Download Now
+            </button>
+          </div>
+
+          <div className="pricing-card bundle-card">
+            <div className="price-badge">POPULAR</div>
+            <h3>12-Week Bundle</h3>
+            <div className="price">$75 <span className="price-period">TTD</span></div>
+            <ul className="features-list">
+              <li>✅ 60 themed worksheets</li>
+              <li>✅ Math, Reading & Science</li>
+              <li>✅ All answer keys included</li>
+              <li>✅ WhatsApp delivery weekly</li>
+              <li>✅ Mojo badge collection</li>
+            </ul>
+            <button className="pricing-button bundle-button" onClick={() => handleWhatsAppContact('12-Week Bundle - $75')}>
+              Buy Now - WhatsApp
+            </button>
+          </div>
+
+          <div className="pricing-card premium-card">
+            <div className="price-badge premium-badge">PREMIUM</div>
+            <h3>Annual Access</h3>
+            <div className="price">$600 <span className="price-period">TTD/year</span></div>
+            <ul className="features-list">
+              <li>✅ 52 weeks of worksheet packs</li>
+              <li>✅ <strong>Live Mojo GPT Tutor</strong></li>
+              <li>✅ Chat with Mojo anytime 24/7</li>
+              <li>✅ Progress tracking dashboard</li>
+              <li>✅ All subjects covered</li>
+              <li>✅ Priority support</li>
+            </ul>
+            <button className="pricing-button premium-button" onClick={() => handleWhatsAppContact('Premium Annual Access - $600')}>
+              Upgrade to Premium
+            </button>
+          </div>
+        </div>
+      </section>
+
+      {/* How It Works */}
+      <section className="how-it-works-section">
+        <h2 className="section-title">How It Works</h2>
+        <div className="steps-grid">
+          <div className="step-card">
+            <div className="step-number">1</div>
+            <h3>Download Free Pack</h3>
+            <p>Get Week 1 instantly - no payment, no signup. Just value.</p>
+          </div>
+          <div className="step-card">
+            <div className="step-number">2</div>
+            <h3>Try With Your Child</h3>
+            <p>10 minutes a day. Watch them have fun with Mojo while learning!</p>
+          </div>
+          <div className="step-card">
+            <div className="step-number">3</div>
+            <h3>See Results</h3>
+            <p>Kids love the badges. Parents see improvement. Everyone wins.</p>
+          </div>
+          <div className="step-card">
+            <div className="step-number">4</div>
+            <h3>Upgrade When Ready</h3>
+            <p>Get 12 weeks or unlock live Mojo GPT tutor for real-time help!</p>
+          </div>
+        </div>
+      </section>
+
+      {/* Quest Map */}
       <section className="quest-map-section">
-        <h2 className="section-title">📍 Your Quest Map</h2>
+        <h2 className="section-title">Your Learning Journey</h2>
         <div className="quest-map-container">
           <img 
             src="https://i.imgur.com/PZACMz6.png" 
@@ -121,66 +243,49 @@ export default function HomePage() {
         </div>
       </section>
 
-      <section className="celebration-section">
-        <h2 className="section-title">🎉 Celebrate Your Wins!</h2>
-        <div className="celebration-grid">
-          <div className="celebration-card">
-            <img 
-              src="https://i.imgur.com/fzzU21l.png" 
-              alt="Party Celebration" 
-              width={200}
-              height={200}
-              className="celebration-image"
-            />
-            <p className="celebration-text">Complete quests and earn amazing celebrations!</p>
+      {/* Parent Testimonial / Social Proof */}
+      <section className="social-proof-section">
+        <h2 className="section-title">Why Parents Choose SEA Smart</h2>
+        <div className="benefits-grid">
+          <div className="benefit-card">
+            <div className="benefit-icon">🇹🇹</div>
+            <h3>Culturally Relevant</h3>
+            <p>Trini examples kids relate to - mangoes, doubles, Carnival!</p>
           </div>
-          <div className="celebration-card">
-            <img 
-              src="https://i.imgur.com/Bigmscv.png" 
-              alt="Savannah Star Badge" 
-              width={200}
-              height={200}
-              className="celebration-image"
-            />
-            <p className="celebration-text">Unlock the Savannah Star when you finish!</p>
+          <div className="benefit-card">
+            <div className="benefit-icon">📚</div>
+            <h3>Ministry Aligned</h3>
+            <p>Based on 10 years of SEA curriculum data</p>
+          </div>
+          <div className="benefit-card">
+            <div className="benefit-icon">🎯</div>
+            <h3>Makes Learning Fun</h3>
+            <p>Not boring past papers - kids actually want to do these!</p>
+          </div>
+          <div className="benefit-card">
+            <div className="benefit-icon">💪</div>
+            <h3>Builds Confidence</h3>
+            <p>Emotional support + academic skills = SEA success</p>
           </div>
         </div>
       </section>
       
-      <section className="try-now-section">
-        <h2 className="section-title">Ready for Your Quest, Champion?</h2>
-        <p className="try-description">
-          Start your magical learning journey with Mojo right now!
-        </p>
-        <button className="big-try-button" onClick={handleTryNowClick}>
-          🚀 START MY ADVENTURE!
+      {/* WhatsApp CTA */}
+      <section className="whatsapp-cta-section">
+        <h2 className="section-title">Questions? We're Here to Help!</h2>
+        <p className="whatsapp-text">Message us on WhatsApp - we respond within 1 hour</p>
+        <button className="whatsapp-button" onClick={() => window.open('https://wa.me/18687654321', '_blank')}>
+          💬 Chat on WhatsApp
         </button>
-        <p className="try-subtext">
-          No downloads needed - start earning badges in 30 seconds!
+        <p className="payment-info">
+          Payment via WiPay: <a href="https://tt.wipayfinancial.com/to_me/pascals_bakery_limited" target="_blank" rel="noopener">tt.wipayfinancial.com/to_me/pascals_bakery_limited</a>
         </p>
       </section>
-      
-      <section className="parent-info">
-        <h3 className="parent-title">📋 Parents: Here&apos;s How It Works</h3>
-        <div className="parent-details">
-          <p>While your child has fun with Mojo and collects badges, they&apos;re actually mastering SEA exam content through our culturally-aware, trauma-informed approach.</p>
-          
-          <div className="price-highlight">
-            💫 12 Months of Fun Learning: $600 TTD<br/>
-            (That&apos;s just $50/month - less than one tutoring session!)
-          </div>
-          
-          <div className="features-list">
-            <p>✅ Ministry validated curriculum<br/>
-            ✅ 200+ families already trust us<br/>
-            ✅ Proven score improvements<br/>
-            ✅ Safe, encouraging environment</p>
-          </div>
-          
-          <button className="parent-cta-btn" onClick={() => window.location.href = '/pricing'}>
-            💳 Pay $600 TTD with WiPay
-          </button>
-        </div>
+
+      {/* Footer */}
+      <section className="footer-section">
+        <p>SEA Smart™ © 2025 | Helping Trini Kids Win at SEA</p>
+        <p>Join our parent community WhatsApp group for tips & support</p>
       </section>
     </>
   );
