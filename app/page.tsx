@@ -11,8 +11,7 @@ export default function HomePage() {
   };
 
   const handleWhatsAppContact = (tier: string) => {
-    const message = encodeURIComponent(`Hi! I'm interested in the ${tier}. Can you send me the payment link?`);
-    window.open(`https://wa.me/18687654321?text=${message}`, '_blank');
+    window.open(`https://wa.me/18683101226?text=${message}`, '_blank');
   };
 
   return (
