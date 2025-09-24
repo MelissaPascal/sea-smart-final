@@ -4,6 +4,12 @@
   box-sizing: border-box;
 }
 
+body {
+  margin: 0;
+  padding: 0;
+  font-family: 'Arial', sans-serif;
+}
+
 /* Confetti Animation */
 .confetti {
   position: fixed;
@@ -20,14 +26,14 @@
 
 /* Hero Section */
 .hero-section {
-  min-height: 100vh;
+  min-height: 90vh;
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: center;
   text-align: center;
   background: linear-gradient(135deg, #ff6b35, #f7931e, #ffd700);
-  padding: 20px;
+  padding: 40px 20px;
   position: relative;
   z-index: 2;
 }
@@ -44,17 +50,17 @@
 }
 
 .main-title {
-  font-size: 4rem;
+  font-size: 3.5rem;
   font-weight: 900;
   color: #2c3e50;
   text-shadow: 3px 3px 0px #fff, 6px 6px 0px #34495e;
   margin: 20px 0;
   text-transform: uppercase;
-  letter-spacing: 3px;
+  letter-spacing: 2px;
 }
 
 .mojo-container {
-  margin: 30px 0;
+  margin: 20px 0;
 }
 
 .mojo-character {
@@ -80,52 +86,97 @@
   box-shadow: 0 8px 32px rgba(0,0,0,0.1);
 }
 
-.quest-buttons {
-  display: flex;
-  gap: 20px;
-  flex-wrap: wrap;
-  justify-content: center;
-  margin: 40px 0;
-}
-
-.quest-btn {
+.big-download-button {
+  background: linear-gradient(45deg, #28a745, #20c997);
   color: white;
   border: none;
-  padding: 15px 30px;
-  font-size: 1.3rem;
+  padding: 20px 40px;
+  font-size: 1.8rem;
   font-weight: bold;
   border-radius: 50px;
   cursor: pointer;
+  margin: 20px 0;
+  box-shadow: 0 15px 40px rgba(40,167,69,0.4);
   transition: all 0.3s ease;
-  box-shadow: 0 8px 25px rgba(255,107,53,0.3);
 }
 
-.quest-btn:hover {
+.big-download-button:hover {
   transform: translateY(-5px);
-  box-shadow: 0 15px 35px rgba(255,107,53,0.5);
+  box-shadow: 0 20px 50px rgba(40,167,69,0.6);
 }
 
-.math-btn { background: linear-gradient(45deg, #e74c3c, #c0392b); }
-.reading-btn { background: linear-gradient(45deg, #3498db, #2980b9); }
-.science-btn { background: linear-gradient(45deg, #2ecc71, #27ae60); }
+.hero-subtext {
+  font-size: 1rem;
+  color: #555;
+  margin-top: 10px;
+}
 
-/* Badges Section */
-.badges-section {
+/* Sample Preview Section */
+.sample-preview-section {
   background: linear-gradient(135deg, #667eea, #764ba2);
   padding: 80px 20px;
   text-align: center;
 }
 
 .section-title {
-  font-size: 3rem;
+  font-size: 2.5rem;
   color: white;
-  margin-bottom: 50px;
+  margin-bottom: 40px;
   text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
+}
+
+.sample-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+  gap: 20px;
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+.sample-card {
+  background: white;
+  padding: 25px;
+  border-radius: 15px;
+  box-shadow: 0 10px 25px rgba(0,0,0,0.2);
+  transition: transform 0.3s ease;
+}
+
+.sample-card:hover {
+  transform: translateY(-5px);
+}
+
+.sample-badge {
+  background: #5B8DEF;
+  color: white;
+  padding: 5px 15px;
+  border-radius: 20px;
+  display: inline-block;
+  font-weight: bold;
+  font-size: 0.9rem;
+  margin-bottom: 10px;
+}
+
+.sample-card h3 {
+  color: #2c3e50;
+  margin: 10px 0;
+  font-size: 1.3rem;
+}
+
+.sample-card p {
+  color: #666;
+  font-size: 0.95rem;
+}
+
+/* Badges Section */
+.badges-section {
+  background: linear-gradient(135deg, #f093fb, #f5576c);
+  padding: 80px 20px;
+  text-align: center;
 }
 
 .badges-grid {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
   gap: 30px;
   max-width: 1200px;
   margin: 0 auto;
@@ -149,7 +200,7 @@
 }
 
 .badge-name {
-  font-size: 1.5rem;
+  font-size: 1.4rem;
   font-weight: bold;
   color: #2c3e50;
   margin-bottom: 10px;
@@ -161,165 +212,279 @@
   font-size: 1rem;
 }
 
-/* Boss Section */
-.boss-section {
-  background: linear-gradient(135deg, #f093fb, #f5576c);
+/* Pricing Section */
+.pricing-section {
+  background: linear-gradient(135deg, #e3f2fd, #bbdefb);
   padding: 80px 20px;
   text-align: center;
 }
 
-.boss-preview {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  gap: 40px;
-  max-width: 800px;
-  margin: 0 auto;
-  flex-wrap: wrap;
+.pricing-section .section-title {
+  color: #2c3e50;
 }
 
-.boss-image {
+.pricing-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  gap: 30px;
+  max-width: 1200px;
+  margin: 40px auto;
+}
+
+.pricing-card {
+  background: white;
   border-radius: 20px;
-  box-shadow: 0 15px 40px rgba(0,0,0,0.3);
+  padding: 30px;
+  box-shadow: 0 10px 30px rgba(0,0,0,0.15);
+  position: relative;
+  transition: transform 0.3s ease;
 }
 
-.boss-text {
+.pricing-card:hover {
+  transform: translateY(-10px);
+}
+
+.premium-card {
+  border: 3px solid #ffd700;
+}
+
+.price-badge {
+  background: #5B8DEF;
   color: white;
-  text-align: left;
-  max-width: 400px;
-}
-
-.boss-text h3 {
-  font-size: 2rem;
+  padding: 8px 20px;
+  border-radius: 20px;
+  display: inline-block;
+  font-weight: bold;
   margin-bottom: 15px;
-  text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
 }
 
-.boss-text p {
+.premium-badge {
+  background: linear-gradient(45deg, #ffd700, #ffa500);
+}
+
+.pricing-card h3 {
+  font-size: 1.8rem;
+  color: #2c3e50;
+  margin: 15px 0;
+}
+
+.price {
+  font-size: 3rem;
+  font-weight: bold;
+  color: #5B8DEF;
+  margin: 20px 0;
+}
+
+.price-period {
   font-size: 1.2rem;
-  line-height: 1.5;
+  color: #666;
 }
 
-/* Caribbean Cards Section */
-.caribbean-section {
+.features-list {
+  text-align: left;
+  list-style: none;
+  padding: 0;
+  margin: 20px 0;
+}
+
+.features-list li {
+  padding: 8px 0;
+  color: #555;
+  font-size: 1rem;
+}
+
+.pricing-button {
+  width: 100%;
+  padding: 15px;
+  font-size: 1.2rem;
+  font-weight: bold;
+  border: none;
+  border-radius: 25px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  margin-top: 20px;
+}
+
+.free-button {
+  background: linear-gradient(45deg, #28a745, #20c997);
+  color: white;
+}
+
+.bundle-button {
+  background: linear-gradient(45deg, #5B8DEF, #4A7FDB);
+  color: white;
+}
+
+.premium-button {
+  background: linear-gradient(45deg, #ffd700, #ffa500);
+  color: #2c3e50;
+}
+
+.pricing-button:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 10px 25px rgba(0,0,0,0.2);
+}
+
+/* How It Works Section */
+.how-it-works-section {
   background: linear-gradient(135deg, #11998e, #38ef7d);
   padding: 80px 20px;
   text-align: center;
 }
 
-.cards-grid {
+.steps-grid {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
   gap: 30px;
-  max-width: 1000px;
+  max-width: 1200px;
   margin: 40px auto;
 }
 
-.caribbean-card {
-  border-radius: 15px;
-  overflow: hidden;
-  box-shadow: 0 10px 25px rgba(0,0,0,0.3);
-  transition: transform 0.3s ease;
+.step-card {
+  background: white;
+  padding: 30px;
+  border-radius: 20px;
+  box-shadow: 0 10px 25px rgba(0,0,0,0.15);
 }
 
-.caribbean-card:hover {
-  transform: scale(1.05);
+.step-number {
+  background: linear-gradient(45deg, #5B8DEF, #FECF3A);
+  color: white;
+  width: 60px;
+  height: 60px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 2rem;
+  font-weight: bold;
+  margin: 0 auto 20px;
 }
 
-.card-image {
-  width: 100%;
-  height: auto;
-  display: block;
+.step-card h3 {
+  color: #2c3e50;
+  margin: 15px 0;
+  font-size: 1.5rem;
 }
 
-/* Try Now Section */
-.try-now-section {
-  background: linear-gradient(135deg, #ff9a9e, #fecfef);
+.step-card p {
+  color: #666;
+  line-height: 1.5;
+}
+
+/* Quest Map Section */
+.quest-map-section {
+  background: linear-gradient(135deg, #fa709a, #fee140);
   padding: 80px 20px;
   text-align: center;
 }
 
-.try-description {
-  font-size: 1.3rem;
-  color: #2c3e50;
-  margin-bottom: 20px;
+.quest-map-container {
+  max-width: 800px;
+  margin: 0 auto;
 }
 
-.big-try-button {
-  background: linear-gradient(45deg, #28a745, #20c997);
-  color: white;
-  border: none;
-  padding: 25px 50px;
-  font-size: 2rem;
-  font-weight: bold;
-  border-radius: 50px;
-  cursor: pointer;
-  margin: 30px 0;
-  box-shadow: 0 15px 40px rgba(40,167,69,0.4);
-  transition: all 0.3s ease;
+.quest-map-image {
+  width: 100%;
+  height: auto;
+  border-radius: 20px;
+  box-shadow: 0 15px 40px rgba(0,0,0,0.3);
 }
 
-.big-try-button:hover {
-  transform: translateY(-8px);
-  box-shadow: 0 25px 50px rgba(40,167,69,0.6);
-}
-
-.try-subtext {
-  font-size: 1rem;
-  color: #7f8c8d;
-}
-
-/* Parent Info Section */
-.parent-info {
-  background: #34495e;
-  color: white;
-  padding: 60px 20px;
+/* Social Proof Section */
+.social-proof-section {
+  background: #f8f9fa;
+  padding: 80px 20px;
   text-align: center;
 }
 
-.parent-title {
-  font-size: 2rem;
-  margin-bottom: 30px;
-  color: #ecf0f1;
+.social-proof-section .section-title {
+  color: #2c3e50;
 }
 
-.parent-details {
-  max-width: 800px;
-  margin: 0 auto;
-  font-size: 1.1rem;
-  line-height: 1.6;
+.benefits-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+  gap: 30px;
+  max-width: 1200px;
+  margin: 40px auto;
 }
 
-.price-highlight {
-  background: linear-gradient(45deg, #f39c12, #e67e22);
+.benefit-card {
+  background: white;
+  padding: 30px;
+  border-radius: 20px;
+  box-shadow: 0 5px 20px rgba(0,0,0,0.1);
+}
+
+.benefit-icon {
+  font-size: 3rem;
+  margin-bottom: 15px;
+}
+
+.benefit-card h3 {
+  color: #2c3e50;
+  margin: 15px 0;
+  font-size: 1.5rem;
+}
+
+.benefit-card p {
+  color: #666;
+  line-height: 1.5;
+}
+
+/* WhatsApp CTA Section */
+.whatsapp-cta-section {
+  background: linear-gradient(135deg, #25D366, #128C7E);
+  padding: 60px 20px;
+  text-align: center;
   color: white;
-  padding: 20px;
-  border-radius: 15px;
-  margin: 30px 0;
-  font-size: 1.3rem;
-  font-weight: bold;
 }
 
-.features-list {
+.whatsapp-text {
+  font-size: 1.2rem;
   margin: 20px 0;
 }
 
-.parent-cta-btn {
-  background: linear-gradient(45deg, #5B8DEF, #4A7FDB);
-  color: white;
+.whatsapp-button {
+  background: white;
+  color: #25D366;
   border: none;
-  padding: 15px 30px;
-  font-size: 1.2rem;
+  padding: 18px 40px;
+  font-size: 1.5rem;
   font-weight: bold;
-  border-radius: 25px;
+  border-radius: 50px;
   cursor: pointer;
-  margin-top: 20px;
+  margin: 20px 0;
+  box-shadow: 0 10px 30px rgba(0,0,0,0.2);
   transition: all 0.3s ease;
 }
 
-.parent-cta-btn:hover {
-  transform: translateY(-3px);
-  box-shadow: 0 10px 25px rgba(91,141,239,0.4);
+.whatsapp-button:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 15px 40px rgba(0,0,0,0.3);
+}
+
+.payment-info {
+  margin-top: 20px;
+  font-size: 0.95rem;
+}
+
+.payment-info a {
+  color: white;
+  text-decoration: underline;
+}
+
+/* Footer Section */
+.footer-section {
+  background: #34495e;
+  color: white;
+  padding: 40px 20px;
+  text-align: center;
+}
+
+.footer-section p {
+  margin: 10px 0;
 }
 
 /* Mobile Responsive */
@@ -328,28 +493,28 @@
     font-size: 2.5rem; 
   }
   
-  .quest-buttons { 
-    flex-direction: column; 
-    align-items: center; 
-  }
-  
   .section-title { 
     font-size: 2rem; 
   }
   
-  .badges-grid { 
+  .pricing-grid { 
     grid-template-columns: 1fr; 
   }
   
-  .boss-preview {
-    flex-direction: column;
-  }
-  
-  .boss-text {
-    text-align: center;
-  }
-  
-  .cards-grid {
+  .sample-grid {
     grid-template-columns: 1fr;
+  }
+  
+  .steps-grid {
+    grid-template-columns: 1fr;
+  }
+  
+  .benefits-grid {
+    grid-template-columns: 1fr;
+  }
+  
+  .big-download-button {
+    font-size: 1.3rem;
+    padding: 15px 30px;
   }
 }
