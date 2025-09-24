@@ -273,7 +273,7 @@ export default function HomePage() {
       <section className="whatsapp-cta-section">
         <h2 className="section-title">Questions? We're Here to Help!</h2>
         <p className="whatsapp-text">Message us on WhatsApp - we respond within 1 hour</p>
-        <button className="whatsapp-button" onClick={() => window.open('https://wa.me/18687654321', '_blank')}>
+       <button className="whatsapp-button" onClick={() => window.open('https://wa.me/18683101226', '_blank')}>
           💬 Chat on WhatsApp
         </button>
         <p className="payment-info">
