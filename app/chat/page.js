@@ -10,20 +10,19 @@ export default function ChatLogin() {
   const [loading, setLoading] = useState(false);
 
   useEffect(() => {
-    // Check if already logged in
     if (SimpleAuth.isLoggedIn()) {
-      window.location.href = '/chat/demo'; // Redirect to your existing chat demo
+      window.location.href = '/chat/demo';
     }
   }, []);
 
-  const handleLogin = async (e: React.FormEvent) => {
+  const handleLogin = async (e) => {
     e.preventDefault();
     setLoading(true);
     setError('');
 
     if (SimpleAuth.validateLogin(email, accessCode)) {
       SimpleAuth.setLoggedIn();
-      window.location.href = '/chat/demo'; // Redirect to your existing chat demo
+      window.location.href = '/chat/demo';
     } else {
       setError('Invalid credentials. Check your email and access code.');
     }
@@ -32,100 +31,51 @@ export default function ChatLogin() {
   };
 
   return (
-    <div style={{
-      minHeight: '100vh',
-      background: '#f8f9fa',
-      display: 'flex',
-      alignItems: 'center',
-      justifyContent: 'center',
-      padding: '20px'
-    }}>
-      <div style={{
-        background: 'white',
-        borderRadius: '10px',
-        padding: '40px',
-        maxWidth: '400px',
-        width: '100%',
-        boxShadow: '0 4px 6px rgba(0,0,0,0.1)'
-      }}>
-        <div style={{ textAlign: 'center', marginBottom: '30px' }}>
-          <h1 style={{ color: '#007bff', marginBottom: '10px', fontSize: '2rem' }}>
+    <div className="min-h-screen bg-gray-50 flex items-center justify-center p-4">
+      <div className="bg-white rounded-lg shadow-lg p-8 max-w-md w-full">
+        <div className="text-center mb-8">
+          <h1 className="text-2xl font-bold text-blue-600 mb-2">
             Welcome to SEA Smart™
           </h1>
-          <p style={{ color: '#666' }}>
+          <p className="text-gray-600">
             Enter your access details to continue
           </p>
         </div>
 
-        <form onSubmit={handleLogin}>
-          <div style={{ marginBottom: '20px' }}>
-            <label style={{ 
-              display: 'block', 
-              marginBottom: '5px', 
-              fontWeight: 'bold',
-              color: '#333'
-            }}>
+        <form onSubmit={handleLogin} className="space-y-6">
+          <div>
+            <label className="block text-sm font-medium text-gray-700 mb-2">
               Email Address
             </label>
             <input
               type="email"
               value={email}
               onChange={(e) => setEmail(e.target.value)}
-              style={{
-                width: '100%',
-                padding: '10px',
-                border: '1px solid #ddd',
-                borderRadius: '5px',
-                fontSize: '1rem',
-                boxSizing: 'border-box'
-              }}
+              className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
               placeholder="student@sea-smart.ai"
               required
             />
           </div>
 
-          <div style={{ marginBottom: '20px' }}>
-            <label style={{ 
-              display: 'block', 
-              marginBottom: '5px', 
-              fontWeight: 'bold',
-              color: '#333'
-            }}>
+          <div>
+            <label className="block text-sm font-medium text-gray-700 mb-2">
               Access Code
             </label>
             <input
               type="text"
               value={accessCode}
               onChange={(e) => setAccessCode(e.target.value)}
-              style={{
-                width: '100%',
-                padding: '10px',
-                border: '1px solid #ddd',
-                borderRadius: '5px',
-                fontSize: '1rem',
-                boxSizing: 'border-box'
-              }}
+              className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
               placeholder="SEA2024"
               required
             />
-            <p style={{ 
-              fontSize: '0.9rem', 
-              color: '#666', 
-              margin: '5px 0 0 0' 
-            }}>
+            <p className="text-sm text-gray-500 mt-1">
               Check your email for the access code sent after payment
             </p>
           </div>
 
           {error && (
-            <div style={{
-              background: '#f8d7da',
-              color: '#721c24',
-              padding: '10px',
-              borderRadius: '5px',
-              marginBottom: '20px',
-              fontSize: '0.9rem'
-            }}>
+            <div className="bg-red-50 border border-red-200 text-red-700 px-4 py-3 rounded-md text-sm">
               {error}
             </div>
           )}
@@ -133,30 +83,24 @@ export default function ChatLogin() {
           <button
             type="submit"
             disabled={loading}
-            style={{
-              width: '100%',
-              background: loading ? '#6c757d' : '#007bff',
-              color: 'white',
-              border: 'none',
-              padding: '12px',
-              borderRadius: '5px',
-              fontSize: '1rem',
-              fontWeight: 'bold',
-              cursor: loading ? 'not-allowed' : 'pointer'
-            }}
+            className="w-full bg-blue-600 hover:bg-blue-700 disabled:bg-blue-300 text-white py-2 px-4 rounded-md font-medium transition-colors"
           >
             {loading ? 'Logging in...' : 'Access My Account'}
           </button>
         </form>
 
-        <div style={{ textAlign: 'center', marginTop: '20px' }}>
-          <p style={{ fontSize: '0.9rem', color: '#666', marginBottom: '5px' }}>
+        <div className="mt-6 text-center space-y-2">
+          <p className="text-sm text-gray-600">
             Don't have an access code?{' '}
-            <a href="/" style={{ color: '#007bff' }}>Get started here</a>
+            <a href="/" className="text-blue-600 hover:underline">
+              Get started here
+            </a>
           </p>
-          <p style={{ fontSize: '0.9rem', color: '#666' }}>
+          <p className="text-sm text-gray-600">
             Need help?{' '}
-            <a href="/support" style={{ color: '#007bff' }}>Contact support</a>
+            <a href="/support" className="text-blue-600 hover:underline">
+              Contact support
+            </a>
           </p>
         </div>
       </div>
