@@ -1,257 +1,317 @@
-// app/chat/demo/page.tsx
+// app/page.tsx
 'use client';
 
-import React, { useState, useEffect, useRef } from 'react';
+import React from 'react';
+import './homepage.css';
 
-interface Message {
-  role: 'user' | 'assistant';
-  content: string;
-  timestamp: Date;
-  badge?: string;
-}
+export default function HomePage() {
+  const handleDownloadFree = () => {
+    window.open('/SEA_Smart_Week_1_FREE.zip', '_blank');
+  };
 
-const demoConversation: Message[] = [
-  {
-    role: 'assistant',
-    content: '🎭🥁🌟 *Loud steelpan music and confetti everywhere!* 🌟🥁🎭\n\n🌈 **Mojo here!** Your very own Quest guide and SEA sidekick!\n\nI\'ve got a bag full of badges 🏅, jokes, and quests to help you win at school — AND have fun doing it!\n\nWhat\'s your name, Champion?',
-    timestamp: new Date(),
-  },
-  {
-    role: 'user',
-    content: 'Hi Mojo! My name is Sarah',
-    timestamp: new Date(),
-  },
-  {
-    role: 'assistant',
-    content: '🎉 Sarah the Champion! Perfect name for a SEA superstar!\n\nNow Sarah, when you hear the word *fractions*, do you feel:\n😃 Excited\n😐 Not sure  \n😟 A little worried',
-    timestamp: new Date(),
-  },
-  {
-    role: 'user',
-    content: 'I feel a little worried 😟',
-    timestamp: new Date(),
-  },
-  {
-    role: 'assistant',
-    content: 'I\'m really glad you told me that, Sarah 🌈. We\'ll go slow and make sure you feel safe and supported the whole way.\n\nLet\'s start super easy! If I have a pizza with 4 slices and I eat 1 slice, what fraction did I eat?\n\nTake your time - there\'s no rush! 🍕',
-    timestamp: new Date(),
-  }
-];
+  const handleWhatsAppContact = (tier: string) => {
+    const message = encodeURIComponent(`Hi! I'm interested in the ${tier}. Can you send me the payment link?`);
+    window.open(`https://wa.me/18683101226?text=${message}`, '_blank');
+  };
 
-export default function ChatDemo() {
-  const [messages, setMessages] = useState<Message[]>([]);
-  const [currentIndex, setCurrentIndex] = useState(0);
-  const [showUpgrade, setShowUpgrade] = useState(false);
-  const messagesEndRef = useRef<HTMLDivElement>(null);
-
-  useEffect(() => {
-    if (currentIndex < demoConversation.length) {
-      const timer = setTimeout(() => {
-        setMessages(prev => [...prev, demoConversation[currentIndex]]);
-        setCurrentIndex(prev => prev + 1);
-        
-        if (currentIndex === demoConversation.length - 1) {
-          setTimeout(() => setShowUpgrade(true), 2000);
-        }
-      }, currentIndex === 0 ? 500 : 2000);
-
-      return () => clearTimeout(timer);
-    }
-  }, [currentIndex]);
-
-  useEffect(() => {
-    messagesEndRef.current?.scrollIntoView({ behavior: 'smooth' });
-  }, [messages]);
-
-  const handleContinueDemo = () => {
-    setShowUpgrade(false);
-    const newMessage: Message = {
-      role: 'user',
-      content: '1/4',
-      timestamp: new Date()
-    };
-    
-    const mojoResponse: Message = {
-      role: 'assistant',
-      content: '🎉 EXACTLY RIGHT, Sarah! You just earned your first badge!\n\n🌱 **Confidence Climber Badge Unlocked!** 🌱\n\nYou showed courage by trying, even when fractions felt scary. That\'s what real champions do!',
-      timestamp: new Date(),
-      badge: '🌱 Confidence Climber'
-    };
-
-    setMessages(prev => [...prev, newMessage, mojoResponse]);
-    setTimeout(() => setShowUpgrade(true), 3000);
+  const handlePremiumUpgrade = () => {
+    // First show them the demo, then redirect to full chat
+    window.location.href = '/chat/demo';
   };
 
   return (
-    <div style={{
-      height: '100vh',
-      display: 'flex',
-      flexDirection: 'column',
-      background: 'linear-gradient(135deg, #667eea 0%, #764ba2 100%)',
-      fontFamily: 'Comic Sans MS, cursive'
-    }}>
-      {/* Header */}
-      <div style={{
-        background: 'linear-gradient(45deg, #5B8DEF, #FECF3A)',
-        color: 'white',
-        padding: '15px',
-        textAlign: 'center',
-        boxShadow: '0 2px 10px rgba(0,0,0,0.2)'
-      }}>
-        <h2 style={{ margin: 0, fontSize: '1.5rem' }}>🎭 Chat with Mojo! 🎭</h2>
-        <p style={{ margin: '5px 0 0 0', fontSize: '0.9rem', opacity: 0.9 }}>
-          DEMO MODE - See how Mojo helps kids learn
+    <>
+      {/* Confetti Animation */}
+      {[...Array(9)].map((_, i) => (
+        <div key={i} className="confetti" style={{
+          left: `${(i + 1) * 10}%`,
+          animationDelay: `${i * 0.3}s`,
+          backgroundColor: ['#00bfff', '#ff1493', '#32cd32', '#ffd700', '#ff4500', '#9370db', '#ff69b4', '#00ced1', '#ffa500'][i]
+        }} />
+      ))}
+      
+      {/* Hero Section */}
+      <section className="hero-section">
+        <div className="steelpan-emoji">🥁🎭🌟</div>
+        
+        <h1 className="main-title">Try Week 1 FREE!</h1>
+        
+        <div className="mojo-container">
+          <img 
+            src="https://i.imgur.com/Xdt38x1.png" 
+            alt="Mojo the Steelpan Parrot" 
+            width={200}
+            height={200}
+            className="mojo-character"
+          />
+        </div>
+        
+        <div className="mojo-intro">
+          <strong>Meet Mojo!</strong> Your child's fun SEA prep companion<br/>
+          Get 5 Math Quest sheets + answer key - <strong>No payment needed!</strong>
+        </div>
+        
+        <button className="big-download-button" onClick={handleDownloadFree}>
+          📥 Download FREE Week 1 Pack
+        </button>
+        
+        <p className="hero-subtext">
+          Instant PDF download • Works on any device • No signup required
         </p>
-      </div>
+      </section>
 
-      {/* Messages Container */}
-      <div style={{
-        flex: 1,
-        overflowY: 'auto',
-        padding: '20px',
-        paddingBottom: '100px'
-      }}>
-        {messages.map((message, index) => (
-          <div key={index} style={{
-            display: 'flex',
-            justifyContent: message.role === 'user' ? 'flex-end' : 'flex-start',
-            marginBottom: '15px'
-          }}>
-            <div style={{
-              maxWidth: '80%',
-              padding: '12px 16px',
-              borderRadius: message.role === 'user' ? '18px 18px 4px 18px' : '18px 18px 18px 4px',
-              background: message.role === 'user' 
-                ? 'linear-gradient(45deg, #4CAF50, #45a049)' 
-                : 'white',
-              color: message.role === 'user' ? 'white' : '#333',
-              boxShadow: '0 4px 12px rgba(0,0,0,0.15)',
-              position: 'relative'
-            }}>
-              {message.role === 'assistant' && (
-                <img 
-                  src="https://i.imgur.com/Xdt38x1.png"
-                  alt="Mojo"
-                  style={{
-                    width: '40px',
-                    height: '40px',
-                    borderRadius: '50%',
-                    position: 'absolute',
-                    top: '-10px',
-                    left: '-15px',
-                    border: '3px solid #FECF3A'
-                  }}
-                />
-              )}
-              
-              <div style={{
-                whiteSpace: 'pre-wrap',
-                lineHeight: '1.4',
-                fontSize: message.role === 'assistant' ? '1rem' : '0.95rem'
-              }}>
-                {message.content}
-              </div>
-
-              {message.badge && (
-                <div style={{
-                  background: 'linear-gradient(45deg, #FFD700, #FFA500)',
-                  color: '#8B4513',
-                  padding: '15px',
-                  borderRadius: '15px',
-                  marginTop: '15px',
-                  textAlign: 'center',
-                  fontWeight: 'bold',
-                  boxShadow: '0 8px 20px rgba(255,215,0,0.4)'
-                }}>
-                  <img 
-                    src="https://i.imgur.com/CEYgdFb.png"
-                    alt="Confidence Climber Badge"
-                    style={{
-                      width: '60px',
-                      height: '60px',
-                      borderRadius: '10px',
-                      marginBottom: '8px',
-                      display: 'block',
-                      margin: '0 auto 8px auto'
-                    }}
-                  />
-                  <div style={{ fontSize: '1.1rem', fontWeight: 'bold' }}>
-                    🏅 {message.badge} 🏅
-                  </div>
-                  <div style={{ fontSize: '0.9rem', marginTop: '5px', opacity: 0.8 }}>
-                    Badge Unlocked!
-                  </div>
-                </div>
-              )}
-            </div>
+      {/* Sample Worksheets Preview */}
+      <section className="sample-preview-section">
+        <h2 className="section-title">What's Inside Week 1?</h2>
+        <div className="sample-grid">
+          <div className="sample-card">
+            <div className="sample-badge">Sheet 1</div>
+            <h3>🍕 Fractions Explorer</h3>
+            <p>Pizza slice challenges with Mojo</p>
           </div>
-        ))}
-        <div ref={messagesEndRef} />
-      </div>
+          <div className="sample-card">
+            <div className="sample-badge">Sheet 2</div>
+            <h3>🥷 Number Ninja</h3>
+            <p>Market math adventures</p>
+          </div>
+          <div className="sample-card">
+            <div className="sample-badge">Sheet 3</div>
+            <h3>📏 Measurement Maestro</h3>
+            <p>Build a treehouse with area & perimeter</p>
+          </div>
+          <div className="sample-card">
+            <div className="sample-badge">Sheet 4</div>
+            <h3>🔺 Geometry Genius</h3>
+            <p>Shape safari challenge</p>
+          </div>
+          <div className="sample-card">
+            <div className="sample-badge">Sheet 5</div>
+            <h3>🥞 Fraction Quest Part 2</h3>
+            <p>Pancake party math</p>
+          </div>
+          <div className="sample-card">
+            <div className="sample-badge">Bonus</div>
+            <h3>🔐 Answer Key</h3>
+            <p>For parents only - with teaching tips!</p>
+          </div>
+        </div>
+      </section>
+      
+      {/* Badges Section */}
+      <section className="badges-section">
+        <h2 className="section-title">Kids Love Earning Badges!</h2>
+        <div className="badges-grid">
+          <div className="badge-card">
+            <img 
+              src="https://i.imgur.com/CEYgdFb.png" 
+              alt="Confidence Climber Badge" 
+              width={150}
+              height={150}
+              className="badge-image"
+            />
+            <div className="badge-name">🌱 Confidence Climber</div>
+            <div className="badge-description">When you show effort and keep trying!</div>
+          </div>
+          
+          <div className="badge-card">
+            <img 
+              src="https://i.imgur.com/uZ5LZSl.png" 
+              alt="Buccoo Reef Explorer" 
+              width={150}
+              height={150}
+              className="badge-image"
+            />
+            <div className="badge-name">🐠 Buccoo Reef Explorer</div>
+            <div className="badge-description">When you get 3 answers right in a row!</div>
+          </div>
+          
+          <div className="badge-card">
+            <img 
+              src="https://i.imgur.com/4nvyKrR.png" 
+              alt="SEA Champion Badge" 
+              width={150}
+              height={150}
+              className="badge-image"
+            />
+            <div className="badge-name">🌳 SEA Champion</div>
+            <div className="badge-description">When you feel super confident!</div>
+          </div>
+          
+          <div className="badge-card">
+            <img 
+              src="https://i.imgur.com/ogz8p3K.png" 
+              alt="Pitch Lake Champion" 
+              width={150}
+              height={150}
+              className="badge-image"
+            />
+            <div className="badge-name">🌊 Pitch Lake Champion</div>
+            <div className="badge-description">When you keep trying, even if it's hard!</div>
+          </div>
+        </div>
+      </section>
 
-      {/* Demo Controls */}
-      {showUpgrade && (
-        <div style={{
-          position: 'fixed',
-          bottom: 0,
-          left: 0,
-          right: 0,
-          background: 'linear-gradient(45deg, #FF6B35, #F7931E)',
-          color: 'white',
-          padding: '20px',
-          textAlign: 'center',
-          boxShadow: '0 -4px 20px rgba(0,0,0,0.3)'
-        }}>
-          <h3 style={{ margin: '0 0 10px 0' }}>Want to continue chatting with Mojo?</h3>
-          <div style={{ display: 'flex', gap: '10px', justifyContent: 'center', flexWrap: 'wrap' }}>
-            <button
-              onClick={handleContinueDemo}
-              style={{
-                background: 'white',
-                color: '#FF6B35',
-                border: 'none',
-                padding: '12px 20px',
-                borderRadius: '25px',
-                fontWeight: 'bold',
-                cursor: 'pointer',
-                fontSize: '1rem'
-              }}
-            >
-              Continue Demo
-            </button>
-            <button
-              onClick={() => window.location.href = '/chat'}
-              style={{
-                background: 'linear-gradient(45deg, #28a745, #20c997)',
-                color: 'white',
-                border: 'none',
-                padding: '12px 20px',
-                borderRadius: '25px',
-                fontWeight: 'bold',
-                cursor: 'pointer',
-                fontSize: '1rem'
-              }}
-            >
-              Get Full Access - $600/year
-            </button>
-            <button
-              onClick={() => window.location.href = '/'}
-              style={{
-                background: 'rgba(255,255,255,0.2)',
-                color: 'white',
-                border: '2px solid white',
-                padding: '12px 20px',
-                borderRadius: '25px',
-                fontWeight: 'bold',
-                cursor: 'pointer',
-                fontSize: '1rem'
-              }}
-            >
-              Back to Homepage
+      {/* Chat Preview Section */}
+      <section className="chat-preview-section">
+        <h2 className="section-title">Chat with Mojo Live!</h2>
+        <div className="preview-container">
+          <iframe 
+            src="/chat/demo" 
+            width="400" 
+            height="600" 
+            className="chat-iframe"
+            title="Mojo Chat Demo"
+          ></iframe>
+          <div className="preview-text">
+            <h3>Real-time Help with Mojo</h3>
+            <p>Ask questions, get hints, earn badges instantly! See how Mojo makes learning fun and builds confidence.</p>
+            <button onClick={() => window.location.href = '/chat/demo'}>
+              Try Full Chat Experience
             </button>
           </div>
         </div>
-      )}
-    </div>
+      </section>
+
+      {/* Pricing Section */}
+      <section className="pricing-section">
+        <h2 className="section-title">Choose Your Plan</h2>
+        <div className="pricing-grid">
+          
+          <div className="pricing-card free-card">
+            <div className="price-badge">FREE</div>
+            <h3>Week 1 Starter</h3>
+            <div className="price">$0 TTD</div>
+            <ul className="features-list">
+              <li>✅ 5 Math Quest worksheets</li>
+              <li>✅ Complete answer key</li>
+              <li>✅ Meet Mojo & earn badges</li>
+              <li>✅ Instant PDF download</li>
+            </ul>
+            <button className="pricing-button free-button" onClick={handleDownloadFree}>
+              Download Now
+            </button>
+          </div>
+
+          <div className="pricing-card bundle-card">
+            <div className="price-badge">POPULAR</div>
+            <h3>12-Week Bundle</h3>
+            <div className="price">$75 <span className="price-period">TTD</span></div>
+            <ul className="features-list">
+              <li>✅ 60 themed worksheets</li>
+              <li>✅ Math, Reading & Science</li>
+              <li>✅ All answer keys included</li>
+              <li>✅ WhatsApp delivery weekly</li>
+              <li>✅ Mojo badge collection</li>
+            </ul>
+            <button className="pricing-button bundle-button" onClick={() => handleWhatsAppContact('12-Week Bundle - $75')}>
+              Buy Now - WhatsApp
+            </button>
+          </div>
+
+          <div className="pricing-card premium-card">
+            <div className="price-badge premium-badge">PREMIUM</div>
+            <h3>Annual Access</h3>
+            <div className="price">$600 <span className="price-period">TTD/year</span></div>
+            <ul className="features-list">
+              <li>✅ 52 weeks of worksheet packs</li>
+              <li>✅ <strong>Live Mojo GPT Tutor</strong></li>
+              <li>✅ Chat with Mojo anytime 24/7</li>
+              <li>✅ Progress tracking dashboard</li>
+              <li>✅ All subjects covered</li>
+              <li>✅ Priority support</li>
+            </ul>
+            <button className="pricing-button premium-button" onClick={handlePremiumUpgrade}>
+              Try Live Mojo Chat Now
+            </button>
+          </div>
+        </div>
+      </section>
+
+      {/* How It Works */}
+      <section className="how-it-works-section">
+        <h2 className="section-title">How It Works</h2>
+        <div className="steps-grid">
+          <div className="step-card">
+            <div className="step-number">1</div>
+            <h3>Download Free Pack</h3>
+            <p>Get Week 1 instantly - no payment, no signup. Just value.</p>
+          </div>
+          <div className="step-card">
+            <div className="step-number">2</div>
+            <h3>Try With Your Child</h3>
+            <p>10 minutes a day. Watch them have fun with Mojo while learning!</p>
+          </div>
+          <div className="step-card">
+            <div className="step-number">3</div>
+            <h3>See Results</h3>
+            <p>Kids love the badges. Parents see improvement. Everyone wins.</p>
+          </div>
+          <div className="step-card">
+            <div className="step-number">4</div>
+            <h3>Upgrade When Ready</h3>
+            <p>Get 12 weeks or unlock live Mojo GPT tutor for real-time help!</p>
+          </div>
+        </div>
+      </section>
+
+      {/* Quest Map */}
+      <section className="quest-map-section">
+        <h2 className="section-title">Your Learning Journey</h2>
+        <div className="quest-map-container">
+          <img 
+            src="https://i.imgur.com/PZACMz6.png" 
+            alt="SEA Smart Quest Map" 
+            width={600}
+            height={400}
+            className="quest-map-image"
+          />
+        </div>
+      </section>
+
+      {/* Parent Testimonial / Social Proof */}
+      <section className="social-proof-section">
+        <h2 className="section-title">Why Parents Choose SEA Smart</h2>
+        <div className="benefits-grid">
+          <div className="benefit-card">
+            <div className="benefit-icon">🇹🇹</div>
+            <h3>Culturally Relevant</h3>
+            <p>Trini examples kids relate to - mangoes, doubles, Carnival!</p>
+          </div>
+          <div className="benefit-card">
+            <div className="benefit-icon">📚</div>
+            <h3>Ministry Aligned</h3>
+            <p>Based on 10 years of SEA curriculum data</p>
+          </div>
+          <div className="benefit-card">
+            <div className="benefit-icon">🎯</div>
+            <h3>Makes Learning Fun</h3>
+            <p>Not boring past papers - kids actually want to do these!</p>
+          </div>
+          <div className="benefit-card">
+            <div className="benefit-icon">💪</div>
+            <h3>Builds Confidence</h3>
+            <p>Emotional support + academic skills = SEA success</p>
+          </div>
+        </div>
+      </section>
+      
+      {/* WhatsApp CTA */}
+      <section className="whatsapp-cta-section">
+        <h2 className="section-title">Questions? We're Here to Help!</h2>
+        <p className="whatsapp-text">Message us on WhatsApp - we respond within 1 hour</p>
+        <button className="whatsapp-button" onClick={() => window.open('https://wa.me/18683101226', '_blank')}>
+          💬 Chat on WhatsApp
+        </button>
+        <p className="payment-info">
+          Payment via WiPay: <a href="https://tt.wipayfinancial.com/to_me/pascals_bakery_limited" target="_blank" rel="noopener noreferrer">tt.wipayfinancial.com/to_me/pascals_bakery_limited</a>
+        </p>
+      </section>
+
+      {/* Footer */}
+      <section className="footer-section">
+        <p>SEA Smart™ © 2025 | Helping Trini Kids Win at SEA</p>
+        <p>Join our parent community WhatsApp group for tips & support</p>
+      </section>
+    </>
   );
 }
