@@ -198,8 +198,6 @@ const handleWhatsAppContact = (tier: string) => {
 <button className="pricing-button premium-button" onClick={() => window.location.href = '/chat'}>
   Try Live Mojo Chat Now
 </button>
-              Upgrade to Premium
-            </button>
           </div>
         </div>
       </section>
