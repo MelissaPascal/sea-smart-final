@@ -204,6 +204,20 @@ const handleWhatsAppContact = (tier: string) => {
         </div>
       </section>
 
+<section className="chat-preview-section">
+  <h2 className="section-title">Chat with Mojo Live!</h2>
+  <div className="preview-container">
+    <iframe src="/chat" width="400" height="600" className="chat-iframe"></iframe>
+    <div className="preview-text">
+      <h3>Real-time Help with Mojo</h3>
+      <p>Ask questions, get hints, earn badges instantly!</p>
+      <button onClick={() => window.location.href = '/chat'}>
+        Try Full Chat Experience
+      </button>
+    </div>
+  </div>
+</section>
+
       {/* How It Works */}
       <section className="how-it-works-section">
         <h2 className="section-title">How It Works</h2>
