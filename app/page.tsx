@@ -194,8 +194,10 @@ const handleWhatsAppContact = (tier: string) => {
               <li>✅ Progress tracking dashboard</li>
               <li>✅ All subjects covered</li>
               <li>✅ Priority support</li>
-            </ul>
-            <button className="pricing-button premium-button" onClick={() => handleWhatsAppContact('Premium Annual Access - $600')}>
+        
+<button className="pricing-button premium-button" onClick={() => window.location.href = '/chat'}>
+  Try Live Mojo Chat Now
+</button>
               Upgrade to Premium
             </button>
           </div>
