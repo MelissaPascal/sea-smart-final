@@ -487,6 +487,122 @@ body {
   margin: 10px 0;
 }
 
+/* ... all your existing CSS ... */
+
+/* Footer Section */
+.footer-section {
+  background: #34495e;
+  color: white;
+  padding: 40px 20px;
+  text-align: center;
+}
+
+.footer-section p {
+  margin: 10px 0;
+}
+
+
+.chat-preview-section {
+  background: linear-gradient(135deg, #e8f4f8, #d1ecf1);
+  padding: 80px 20px;
+  text-align: center;
+}
+
+.preview-container {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 40px;
+  max-width: 1200px;
+  margin: 0 auto;
+  flex-wrap: wrap;
+}
+
+.chat-iframe {
+  border-radius: 20px;
+  border: 3px solid #5B8DEF;
+  box-shadow: 0 15px 40px rgba(0,0,0,0.2);
+}
+
+.preview-text {
+  max-width: 400px;
+  text-align: left;
+}
+
+.preview-text h3 {
+  color: #2c3e50;
+  font-size: 2rem;
+  margin-bottom: 15px;
+}
+
+.preview-text p {
+  color: #666;
+  font-size: 1.2rem;
+  line-height: 1.5;
+  margin-bottom: 20px;
+}
+
+.preview-text button {
+  background: linear-gradient(45deg, #5B8DEF, #4A7FDB);
+  color: white;
+  border: none;
+  padding: 15px 30px;
+  font-size: 1.2rem;
+  font-weight: bold;
+  border-radius: 25px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.preview-text button:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 10px 25px rgba(91,141,239,0.4);
+}
+
+/* Mobile Responsive */
+@media (max-width: 768px) {
+  .main-title { 
+    font-size: 2.5rem; 
+  }
+  
+  .section-title { 
+    font-size: 2rem; 
+  }
+  
+  .pricing-grid { 
+    grid-template-columns: 1fr; 
+  }
+  
+  .sample-grid {
+    grid-template-columns: 1fr;
+  }
+  
+  .steps-grid {
+    grid-template-columns: 1fr;
+  }
+  
+  .benefits-grid {
+    grid-template-columns: 1fr;
+  }
+  
+  .big-download-button {
+    font-size: 1.3rem;
+    padding: 15px 30px;
+  }
+
+  .preview-container {
+    flex-direction: column;
+  }
+  
+  .chat-iframe {
+    width: 100%;
+    max-width: 350px;
+  }
+  
+  .preview-text {
+    text-align: center;
+  }
+}
 /* Mobile Responsive */
 @media (max-width: 768px) {
   .main-title { 
